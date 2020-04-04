@@ -3,13 +3,20 @@
   "version": "0.1.0",
   "description": "UI components for fake browser",
   "main": "lib/index.js",
+  "module": "es/index.js",
+  "typings": "ts/index.d.ts",
+  "files": [
+    "/es",
+    "/lib/",
+    "/ts"
+  ],
   "repository": "git@github.com:vtaits/react-fake-browser.git",
   "author": "Vadim Taits <taizvadim@gmail.com>",
   "license": "MIT",
   "scripts": {
     "clean": "rimraf lib es ts",
-    "build:cjs": "cross-env BABEL_ENV=cjs babel --extensions '.ts' src --out-dir lib --ignore \"src/**/__tests__\",\"src/**/__stories__\"",
-    "build:es": "cross-env BABEL_ENV=es babel --extensions '.ts' src --out-dir es --ignore \"src/**/__tests__\",\"src/**/__stories__\"",
+    "build:cjs": "cross-env BABEL_ENV=cjs babel --extensions '.ts,.tsx' src --out-dir lib --ignore \"src/**/__tests__\",\"src/**/__stories__\"",
+    "build:es": "cross-env BABEL_ENV=es babel --extensions '.ts,.tsx' src --out-dir es --ignore \"src/**/__tests__\",\"src/**/__stories__\"",
     "build:ts": "tsc --declaration",
     "build": "yarn clean && yarn build:cjs && yarn build:es && yarn build:ts",
     "lint": "eslint src --ext .ts,.tsx --ignore-path ../../.gitignore",
@@ -17,10 +24,18 @@
     "test": "yarn test:unit",
     "prepare": "yarn build"
   },
+  "peerDependencies": {
+    "react": "^16.8.0"
+  },
   "devDependencies": {
+    "@types/react": "^16.9.32",
     "react": "^16.13.1"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.28",
+    "@fortawesome/free-solid-svg-icons": "^5.13.0",
+    "@fortawesome/react-fontawesome": "^0.1.9",
+    "prop-types": "^15.7.2",
     "styled-components": "^5.0.1"
   }
 }

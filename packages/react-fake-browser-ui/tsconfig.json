@@ -2,7 +2,8 @@
   "compilerOptions": {
     "outDir": "ts",
     "emitDeclarationOnly": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "jsx": "react"
   },
   "include": [
     "src/**/*"
