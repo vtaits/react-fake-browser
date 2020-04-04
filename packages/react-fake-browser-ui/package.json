@@ -1,0 +1,26 @@
+{
+  "name": "@vtaits/react-fake-browser-ui",
+  "version": "0.1.0",
+  "description": "UI components for fake browser",
+  "main": "lib/index.js",
+  "repository": "git@github.com:vtaits/react-fake-browser.git",
+  "author": "Vadim Taits <taizvadim@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "clean": "rimraf lib es ts",
+    "build:cjs": "cross-env BABEL_ENV=cjs babel --extensions '.ts' src --out-dir lib --ignore \"src/**/__tests__\",\"src/**/__stories__\"",
+    "build:es": "cross-env BABEL_ENV=es babel --extensions '.ts' src --out-dir es --ignore \"src/**/__tests__\",\"src/**/__stories__\"",
+    "build:ts": "tsc --declaration",
+    "build": "yarn clean && yarn build:cjs && yarn build:es && yarn build:ts",
+    "lint": "eslint src --ext .ts,.tsx --ignore-path ../../.gitignore",
+    "test:unit": "jest",
+    "test": "yarn test:unit",
+    "prepare": "yarn build"
+  },
+  "devDependencies": {
+    "react": "^16.13.1"
+  },
+  "dependencies": {
+    "styled-components": "^5.0.1"
+  }
+}
