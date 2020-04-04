@@ -7,19 +7,48 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { definition as faRedo } from '@fortawesome/free-solid-svg-icons/faRedo';
+import { definition as faAngleRight } from '@fortawesome/free-solid-svg-icons/faAngleRight';
 import styled from 'styled-components';
 
 const StyledForm = styled.form({
-
+  flex: 1,
+  marginLeft: 5,
+  marginRight: 5,
+  position: 'relative',
 });
 
 const StyledButton = styled.button({
+  position: 'absolute',
+  top: 0,
+  right: 0,
+  padding: 0,
+  border: 'none',
+  backgroundColor: 'transparent',
+  cursor: 'pointer',
+  width: 24,
+  height: 24,
+  borderRadius: 12,
+  outline: 'none',
+  color: '#333',
 
+  ':hover': {
+    backgroundColor: '#ddd',
+  },
+
+  ':active': {
+    backgroundColor: '#d0d0d0',
+  },
 });
 
 const StyledInput = styled.input({
-
+  boxSizing: 'border-box',
+  outline: 'none',
+  width: '100%',
+  height: 24,
+  borderRadius: 12,
+  border: 'none',
+  paddingLeft: 12,
+  paddingRight: 40,
 });
 
 type Props = {
@@ -65,7 +94,7 @@ const Address: FC<Props> = ({
             type="submit"
           >
             <FontAwesomeIcon
-              icon={faRedo}
+              icon={faAngleRight}
             />
           </StyledButton>
         )

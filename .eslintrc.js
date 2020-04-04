@@ -19,7 +19,7 @@ module.exports = {
   ],
 
   parserOptions: {
-    project: './tsconfig.json',
+    project: './tsconfig.eslint.json',
   },
 
   settings: {
@@ -34,7 +34,7 @@ module.exports = {
     'no-plusplus': 'off',
     'no-nested-ternary': 'off',
     'import/no-extraneous-dependencies': [
-      'error',
+      'off',
       {
         'devDependencies': [
           '**/setup-jest.js',

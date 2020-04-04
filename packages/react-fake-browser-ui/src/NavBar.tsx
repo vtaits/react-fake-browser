@@ -4,19 +4,24 @@ import React, {
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { definition as faAngleLeft } from '@fortawesome/free-solid-svg-icons/faAngleLeft';
-import { definition as faAngleRight } from '@fortawesome/free-solid-svg-icons/faAngleRight';
+import { definition as faArrowLeft } from '@fortawesome/free-solid-svg-icons/faArrowLeft';
+import { definition as faArrowRight } from '@fortawesome/free-solid-svg-icons/faArrowRight';
+import { definition as faRedo } from '@fortawesome/free-solid-svg-icons/faRedo';
 
 import Button from './Button';
 import Address from './Address';
 
 const StyledNavBar = styled.div({
+  display: 'flex',
+  padding: 5,
+  backgroundColor: '#f6f6f6',
 });
 
 type Props = {
   canMoveForward: boolean;
   canMoveBack: boolean;
   currentAddress: string;
+  refresh: () => void;
   goBack: () => void;
   goForward: () => void;
   goTo: (nextAddress: string) => void;
@@ -26,6 +31,7 @@ const NavBar: FC<Props> = ({
   canMoveForward,
   canMoveBack,
   currentAddress,
+  refresh,
   goBack,
   goForward,
   goTo,
@@ -37,7 +43,7 @@ const NavBar: FC<Props> = ({
       disabled={!canMoveBack}
     >
       <FontAwesomeIcon
-        icon={faAngleLeft}
+        icon={faArrowLeft}
       />
     </Button>
 
@@ -47,7 +53,16 @@ const NavBar: FC<Props> = ({
       disabled={!canMoveForward}
     >
       <FontAwesomeIcon
-        icon={faAngleRight}
+        icon={faArrowRight}
+      />
+    </Button>
+
+    <Button
+      type="button"
+      onClick={refresh}
+    >
+      <FontAwesomeIcon
+        icon={faRedo}
       />
     </Button>
 
@@ -62,6 +77,7 @@ NavBar.propTypes = {
   canMoveForward: PropTypes.bool.isRequired,
   canMoveBack: PropTypes.bool.isRequired,
   currentAddress: PropTypes.string.isRequired,
+  refresh: PropTypes.func.isRequired,
   goBack: PropTypes.func.isRequired,
   goForward: PropTypes.func.isRequired,
   goTo: PropTypes.func.isRequired,

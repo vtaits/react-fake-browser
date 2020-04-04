@@ -10,6 +10,7 @@ type Props = {
   canMoveForward: boolean;
   canMoveBack: boolean;
   currentAddress: string;
+  refresh: () => void;
   goBack: () => void;
   goForward: () => void;
   goTo: (nextAddress: string) => void;
@@ -20,6 +21,7 @@ const FakeBrowser: FC<Props> = ({
   canMoveForward,
   canMoveBack,
   currentAddress,
+  refresh,
   goBack,
   goForward,
   goTo,
@@ -30,6 +32,7 @@ const FakeBrowser: FC<Props> = ({
       canMoveForward={canMoveForward}
       canMoveBack={canMoveBack}
       currentAddress={currentAddress}
+      refresh={refresh}
       goBack={goBack}
       goForward={goForward}
       goTo={goTo}
@@ -43,10 +46,11 @@ FakeBrowser.propTypes = {
   canMoveForward: PropTypes.bool.isRequired,
   canMoveBack: PropTypes.bool.isRequired,
   currentAddress: PropTypes.string.isRequired,
+  refresh: PropTypes.func.isRequired,
   goBack: PropTypes.func.isRequired,
   goForward: PropTypes.func.isRequired,
   goTo: PropTypes.func.isRequired,
-  children: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 export default FakeBrowser;

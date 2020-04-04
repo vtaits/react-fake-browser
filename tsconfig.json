@@ -6,11 +6,9 @@
     "jsx": "react"
   },
   "include": [
-    "src/**/*"
+    "packages/**/*"
   ],
   "exclude": [
-    "node_modules",
-    "__tests__",
-    "src/__stories__"
+    "node_modules"
   ]
 }
