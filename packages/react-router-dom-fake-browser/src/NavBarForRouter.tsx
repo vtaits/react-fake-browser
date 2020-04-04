@@ -4,8 +4,8 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import {
-  useHistory,
-  useLocation,
+  useHistory as defaultUseHistory,
+  useLocation as defaultUseLocation,
 } from 'react-router-dom';
 import {
   NavBar,
@@ -13,10 +13,14 @@ import {
 
 type Props = {
   refresh: () => void;
+  useHistory?: typeof defaultUseHistory;
+  useLocation?: typeof defaultUseLocation;
 };
 
 const NavBarForRouter: FC<Props> = ({
   refresh,
+  useHistory,
+  useLocation,
 }) => {
   const history = useHistory();
   const location = useLocation();
@@ -52,6 +56,13 @@ const NavBarForRouter: FC<Props> = ({
 
 NavBarForRouter.propTypes = {
   refresh: PropTypes.func.isRequired,
+  useHistory: PropTypes.func,
+  useLocation: PropTypes.func,
+};
+
+NavBarForRouter.defaultProps = {
+  useHistory: defaultUseHistory,
+  useLocation: defaultUseLocation,
 };
 
 export default NavBarForRouter;
