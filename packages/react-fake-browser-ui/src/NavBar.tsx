@@ -69,6 +69,7 @@ const NavBar: FC<Props> = ({
     <Address
       currentAddress={currentAddress}
       goTo={goTo}
+      refresh={refresh}
     />
   </StyledNavBar>
 );

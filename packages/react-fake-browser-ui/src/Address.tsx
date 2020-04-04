@@ -1,7 +1,7 @@
 import React, {
-  useState,
+  useState as defaultUseState,
   useCallback,
-  useEffect,
+  useEffect as defaultUseEffect,
   FC,
   SyntheticEvent,
 } from 'react';
@@ -10,14 +10,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { definition as faAngleRight } from '@fortawesome/free-solid-svg-icons/faAngleRight';
 import styled from 'styled-components';
 
-const StyledForm = styled.form({
+export const StyledForm = styled.form({
   flex: 1,
   marginLeft: 5,
   marginRight: 5,
   position: 'relative',
 });
 
-const StyledButton = styled.button({
+export const StyledButton = styled.button({
   position: 'absolute',
   top: 0,
   right: 0,
@@ -40,7 +40,7 @@ const StyledButton = styled.button({
   },
 });
 
-const StyledInput = styled.input({
+export const StyledInput = styled.input({
   boxSizing: 'border-box',
   outline: 'none',
   width: '100%',
@@ -53,14 +53,22 @@ const StyledInput = styled.input({
 
 type Props = {
   currentAddress: string;
+  refresh: () => void;
   goTo: (nextAddress: string) => void;
+  useState?: typeof defaultUseState;
+  useEffect?: typeof defaultUseEffect;
 };
 
 const Address: FC<Props> = ({
   currentAddress,
+  refresh,
   goTo,
+  useState,
+  useEffect,
 }) => {
-  const [address, setAddress] = useState<string>('');
+  const [address, setAddress] = useState<string>(currentAddress);
+
+  const isSameAddresses = address === currentAddress;
 
   const onChange = useCallback((event: SyntheticEvent): void => {
     setAddress((event.target as HTMLInputElement).value);
@@ -69,11 +77,15 @@ const Address: FC<Props> = ({
   const onSubmit = (event: SyntheticEvent): void => {
     event.preventDefault();
 
-    goTo(address);
+    if (isSameAddresses) {
+      refresh();
+    } else {
+      goTo(address);
+    }
   };
 
   useEffect(() => {
-    if (address !== currentAddress) {
+    if (!isSameAddresses) {
       setAddress(currentAddress);
     }
   }, [currentAddress]);
@@ -105,7 +117,15 @@ const Address: FC<Props> = ({
 
 Address.propTypes = {
   currentAddress: PropTypes.string.isRequired,
+  refresh: PropTypes.func.isRequired,
   goTo: PropTypes.func.isRequired,
+  useState: PropTypes.func,
+  useEffect: PropTypes.func,
+};
+
+Address.defaultProps = {
+  useState: defaultUseState,
+  useEffect: defaultUseEffect,
 };
 
 export default Address;
