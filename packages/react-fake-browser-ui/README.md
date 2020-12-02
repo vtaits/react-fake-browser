@@ -2,7 +2,13 @@
 
 # @vtaits/react-fake-browser-ui
 
-UI elements for creating fake browsers:
+UI elements for creating fake browsers
+
+### Examples
+
+- With `react-router-dom`: [demo](https://codesandbox.io/s/sv055), [package](https://github.com/vtaits/react-fake-browser/tree/master/packages/react-router-dom-fake-browser)
+
+### Usage
 
 - `NavBar` - navigation component (address input + buttons) only;
 
@@ -12,10 +18,10 @@ UI elements for creating fake browsers:
 import {
   FakeBrowser,
   NavBar,
-} from '@vtaits/react-fake-browser-ui'
+} from '@vtaits/react-fake-browser-ui';
 ```
 
-### Props
+#### Props
 
 | Name | Type |
 |------|------|
