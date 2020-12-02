@@ -1,8 +1,9 @@
 /* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-explicit-any */
 
-import React from 'react';
 import {
   shallow,
+} from 'enzyme';
+import type {
   ShallowWrapper,
 } from 'enzyme';
 

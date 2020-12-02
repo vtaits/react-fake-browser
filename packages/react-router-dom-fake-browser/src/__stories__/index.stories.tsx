@@ -1,4 +1,4 @@
-import React, {
+import type {
   ReactNode,
 } from 'react';
 import {

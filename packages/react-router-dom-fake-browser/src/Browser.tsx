@@ -1,11 +1,12 @@
-import React, {
+import {
   useState as defaultUseState,
   useCallback,
   Fragment,
-  FC,
-  ReactNode,
 } from 'react';
-import PropTypes from 'prop-types';
+import type {
+  ComponentProps,
+  FC,
+} from 'react';
 import {
   MemoryRouter,
 } from 'react-router-dom';
@@ -14,8 +15,7 @@ import NavBarForRouter from './NavBarForRouter';
 
 const increase = (prevValue: number): number => prevValue + 1;
 
-const Browser: FC<{
-  children?: ReactNode;
+const Browser: FC<ComponentProps<typeof MemoryRouter> & {
   useState?: typeof defaultUseState;
 }> = (props) => {
   const {
@@ -51,13 +51,7 @@ const Browser: FC<{
   );
 };
 
-Browser.propTypes = {
-  children: PropTypes.node,
-  useState: PropTypes.func,
-};
-
 Browser.defaultProps = {
-  children: null,
   useState: defaultUseState,
 };
 

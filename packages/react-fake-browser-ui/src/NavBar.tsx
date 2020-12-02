@@ -1,7 +1,6 @@
-import React, {
+import type {
   FC,
 } from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { definition as faArrowLeft } from '@fortawesome/free-solid-svg-icons/faArrowLeft';
@@ -73,15 +72,5 @@ const NavBar: FC<Props> = ({
     />
   </StyledNavBar>
 );
-
-NavBar.propTypes = {
-  canMoveForward: PropTypes.bool.isRequired,
-  canMoveBack: PropTypes.bool.isRequired,
-  currentAddress: PropTypes.string.isRequired,
-  refresh: PropTypes.func.isRequired,
-  goBack: PropTypes.func.isRequired,
-  goForward: PropTypes.func.isRequired,
-  goTo: PropTypes.func.isRequired,
-};
 
 export default NavBar;

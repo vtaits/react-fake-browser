@@ -1,11 +1,12 @@
-import React, {
+import {
   useState as defaultUseState,
   useCallback,
   useEffect as defaultUseEffect,
+} from 'react';
+import type {
   FC,
   SyntheticEvent,
 } from 'react';
-import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { definition as faAngleRight } from '@fortawesome/free-solid-svg-icons/faAngleRight';
 import styled from 'styled-components';
@@ -113,14 +114,6 @@ const Address: FC<Props> = ({
       }
     </StyledForm>
   );
-};
-
-Address.propTypes = {
-  currentAddress: PropTypes.string.isRequired,
-  refresh: PropTypes.func.isRequired,
-  goTo: PropTypes.func.isRequired,
-  useState: PropTypes.func,
-  useEffect: PropTypes.func,
 };
 
 Address.defaultProps = {

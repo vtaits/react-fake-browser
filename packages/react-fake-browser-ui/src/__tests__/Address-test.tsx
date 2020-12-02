@@ -1,8 +1,12 @@
 /* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-explicit-any */
 
-import React from 'react';
+import type {
+  ComponentProps,
+} from 'react';
 import {
   shallow,
+} from 'enzyme';
+import type {
   ShallowWrapper,
 } from 'enzyme';
 
@@ -13,9 +17,9 @@ import Address, {
 } from '../Address';
 
 type PageObject = {
-  getFormNode: () => ShallowWrapper;
-  getButtonNode: () => ShallowWrapper;
-  getInputNode: () => ShallowWrapper;
+  getFormNode: () => ShallowWrapper<ComponentProps<typeof StyledForm>>;
+  getButtonNode: () => ShallowWrapper<ComponentProps<typeof StyledButton>>;
+  getInputNode: () => ShallowWrapper<ComponentProps<typeof StyledInput>>;
 };
 
 const defaultProps = {
@@ -32,11 +36,14 @@ const setup = (props: Record<string, any>): PageObject => {
     />,
   );
 
-  const getFormNode = (): ShallowWrapper => wrapper.find(StyledForm);
+  const getFormNode = (): ShallowWrapper<ComponentProps<typeof StyledForm>> => wrapper
+    .find(StyledForm);
 
-  const getButtonNode = (): ShallowWrapper => wrapper.find(StyledButton);
+  const getButtonNode = (): ShallowWrapper<ComponentProps<typeof StyledButton>> => wrapper
+    .find(StyledButton);
 
-  const getInputNode = (): ShallowWrapper => wrapper.find(StyledInput);
+  const getInputNode = (): ShallowWrapper<ComponentProps<typeof StyledInput>> => wrapper
+    .find(StyledInput);
 
   return {
     getFormNode,
@@ -46,15 +53,16 @@ const setup = (props: Record<string, any>): PageObject => {
 };
 
 test('should take initial value from props', () => {
-  const useState = jest.fn(() => ['', Function.prototype]);
+  const useState = jest.fn()
+    .mockReturnValue(['', Function.prototype]);
 
   setup({
     currentAddress: 'test',
     useState,
   });
 
-  expect(useState.mock.calls.length).toBe(1);
-  expect(useState.mock.calls[0][0]).toBe('test');
+  expect(useState).toHaveBeenCalledTimes(1);
+  expect(useState).toHaveBeenCalledWith('test');
 });
 
 test('should render input with value from state', () => {
@@ -73,7 +81,7 @@ test('should change local value with input', () => {
     useState,
   });
 
-  (page.getInputNode().prop('onChange') as Function)({
+  page.getInputNode().prop('onChange')({
     target: {
       value: 'test',
     },
@@ -113,7 +121,7 @@ test('should call goTo with local value on submit', () => {
     refresh,
   });
 
-  (page.getFormNode().prop('onSubmit') as Function)({
+  page.getFormNode().prop('onSubmit')({
     preventDefault,
   });
 
@@ -137,7 +145,7 @@ test('should call refresh on submit', () => {
     refresh,
   });
 
-  (page.getFormNode().prop('onSubmit') as Function)({
+  page.getFormNode().prop('onSubmit')({
     preventDefault,
   });
 
@@ -155,7 +163,7 @@ test('should change local value on change currentAddress prop', () => {
   setup({
     currentAddress: 'test2',
     useState,
-    useEffect: (fn) => fn(),
+    useEffect: (fn: () => void) => fn(),
   });
 
   expect(setValue.mock.calls.length).toBe(1);

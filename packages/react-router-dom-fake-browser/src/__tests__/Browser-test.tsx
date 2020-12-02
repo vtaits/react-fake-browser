@@ -1,8 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import React, { FC } from 'react';
+import type {
+  ComponentProps,
+  FC,
+} from 'react';
 import {
   shallow,
+} from 'enzyme';
+import type {
   ShallowWrapper,
 } from 'enzyme';
 import {
@@ -14,8 +19,8 @@ import NavBarForRouter from '../NavBarForRouter';
 import Browser from '../Browser';
 
 type PageObject = {
-  getRouterNode: () => ShallowWrapper;
-  getNavBarNode: () => ShallowWrapper;
+  getRouterNode: () => ShallowWrapper<ComponentProps<typeof MemoryRouter>>;
+  getNavBarNode: () => ShallowWrapper<ComponentProps<typeof NavBarForRouter>>;
   wrapper: ShallowWrapper;
 };
 
@@ -26,9 +31,11 @@ const setup = (props: Record<string, any>): PageObject => {
     />,
   );
 
-  const getRouterNode = (): ShallowWrapper => wrapper.find(MemoryRouter);
+  const getRouterNode = (): ShallowWrapper<ComponentProps<typeof MemoryRouter>> => wrapper
+    .find(MemoryRouter);
 
-  const getNavBarNode = (): ShallowWrapper => wrapper.find(NavBarForRouter);
+  const getNavBarNode = (): ShallowWrapper<ComponentProps<typeof NavBarForRouter>> => wrapper
+    .find(NavBarForRouter);
 
   return {
     getRouterNode,
@@ -46,7 +53,7 @@ test('should refresh with NavBarForRouter', () => {
 
   const navBarNode = page.getNavBarNode();
 
-  (navBarNode.prop('refresh') as Function)();
+  navBarNode.prop('refresh')();
 
   expect(setUniq.mock.calls.length).toBe(1);
 });
@@ -64,7 +71,6 @@ test('should provide props to MemoryRouter', () => {
   expect(routerNode.prop('initialEntries')).toBe(initialEntries);
   expect(routerNode.prop('initialIndex')).toBe(5);
 });
-
 
 test('should render children', () => {
   const Test: FC = () => <span />;

@@ -1,8 +1,7 @@
-import React, {
+import type {
   FC,
   ReactNode,
 } from 'react';
-import PropTypes from 'prop-types';
 
 import NavBar from './NavBar';
 
@@ -41,16 +40,5 @@ const FakeBrowser: FC<Props> = ({
     {children}
   </>
 );
-
-FakeBrowser.propTypes = {
-  canMoveForward: PropTypes.bool.isRequired,
-  canMoveBack: PropTypes.bool.isRequired,
-  currentAddress: PropTypes.string.isRequired,
-  refresh: PropTypes.func.isRequired,
-  goBack: PropTypes.func.isRequired,
-  goForward: PropTypes.func.isRequired,
-  goTo: PropTypes.func.isRequired,
-  children: PropTypes.node.isRequired,
-};
 
 export default FakeBrowser;

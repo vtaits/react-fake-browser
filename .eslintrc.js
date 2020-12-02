@@ -57,5 +57,10 @@ module.exports = {
         tsx: 'never',
       },
     ],
+
+    'react/prop-types': 'off',
+
+    'react/jsx-uses-react': 'off',
+    'react/react-in-jsx-scope': 'off',
   }
 };

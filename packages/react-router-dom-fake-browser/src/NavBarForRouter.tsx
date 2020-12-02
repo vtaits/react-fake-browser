@@ -1,8 +1,9 @@
-import React, {
+import {
   useCallback,
+} from 'react';
+import type {
   FC,
 } from 'react';
-import PropTypes from 'prop-types';
 import {
   useHistory as defaultUseHistory,
   useLocation as defaultUseLocation,
@@ -37,14 +38,14 @@ const NavBarForRouter: FC<Props> = ({
     history.push(path);
   }, [history]);
 
+  const historyIndex = (history as unknown as {
+    index: number;
+  }).index;
+
   return (
     <NavBar
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-      // @ts-ignore
-      canMoveForward={history.index < history.length - 1}
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-      // @ts-ignore
-      canMoveBack={history.index > 0}
+      canMoveForward={historyIndex < history.length - 1}
+      canMoveBack={historyIndex > 0}
       currentAddress={`${location.pathname}${location.search}`}
       refresh={refresh}
       goBack={goBack}
@@ -52,12 +53,6 @@ const NavBarForRouter: FC<Props> = ({
       goTo={goTo}
     />
   );
-};
-
-NavBarForRouter.propTypes = {
-  refresh: PropTypes.func.isRequired,
-  useHistory: PropTypes.func,
-  useLocation: PropTypes.func,
 };
 
 NavBarForRouter.defaultProps = {
