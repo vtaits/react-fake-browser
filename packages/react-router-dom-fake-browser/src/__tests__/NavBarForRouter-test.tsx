@@ -1,3 +1,6 @@
+import {
+  useContext,
+} from 'react';
 import type {
   ComponentProps,
   ReactElement,
@@ -5,14 +8,12 @@ import type {
 
 import { createRenderer } from 'react-test-renderer/shallow';
 
-import type {
-  History,
-  Location,
-} from 'history';
-
 import {
-  useHistory,
+  useNavigate,
   useLocation,
+} from 'react-router-dom';
+import type {
+  Location,
 } from 'react-router-dom';
 
 import {
@@ -24,27 +25,42 @@ import type {
   NavBarForRouterProps,
 } from '../NavBarForRouter';
 
+const navigate = jest.fn();
+
+jest.mock('react', () => ({
+  ...jest.requireActual('react'),
+
+  useContext: jest.fn().mockReturnValue({
+    navigator: {
+      index: 0,
+      length: 0,
+    },
+  }),
+}));
+
 jest.mock('react-router-dom', () => ({
-  useHistory: jest.fn(),
+  useNavigate: jest.fn(),
   useLocation: jest.fn(),
 }));
 
-const mockedUseHistory = jest.mocked(useHistory);
+const mockedUseContext = jest.mocked(useContext);
+const mockedUseNavigate = jest.mocked(useNavigate);
 const mockedUseLocation = jest.mocked(useLocation);
 
 beforeEach(() => {
-  mockedUseHistory.mockReturnValue({
-    index: 0,
-    length: 1,
-    goBack: () => undefined,
-    goForward: () => undefined,
-    push: () => undefined,
-  } as unknown as History<unknown>);
+  mockedUseContext.mockReturnValue({
+    navigator: {
+      index: 0,
+      length: 0,
+    },
+  });
+
+  mockedUseNavigate.mockReturnValue(navigate);
 
   mockedUseLocation.mockReturnValue({
     pathname: '/',
     search: '',
-  } as unknown as Location<unknown>);
+  } as unknown as Location);
 });
 
 afterEach(() => {
@@ -80,22 +96,18 @@ const setup = (props: Partial<NavBarForRouterProps>): PageObject => {
 
 test('should provide props to NavBar', () => {
   const refresh = jest.fn();
-  const goBack = jest.fn();
-  const goForward = jest.fn();
-  const push = jest.fn();
 
-  mockedUseHistory.mockReturnValue({
-    index: 0,
-    length: 1,
-    goBack,
-    goForward,
-    push,
-  } as unknown as History<unknown>);
+  mockedUseContext.mockReturnValue({
+    navigator: {
+      index: 0,
+      length: 1,
+    },
+  });
 
   mockedUseLocation.mockReturnValue({
     pathname: '/test/',
     search: '?123',
-  } as unknown as Location<unknown>);
+  } as unknown as Location);
 
   const page = setup({
     refresh,
@@ -110,17 +122,12 @@ test('should provide props to NavBar', () => {
 });
 
 test('should provide truthy canMoveForward to NavBar', () => {
-  const goBack = jest.fn();
-  const goForward = jest.fn();
-  const push = jest.fn();
-
-  mockedUseHistory.mockReturnValue({
-    index: 2,
-    length: 5,
-    goBack,
-    goForward,
-    push,
-  } as unknown as History<unknown>);
+  mockedUseContext.mockReturnValue({
+    navigator: {
+      index: 2,
+      length: 5,
+    },
+  });
 
   const page = setup({});
 
@@ -130,17 +137,12 @@ test('should provide truthy canMoveForward to NavBar', () => {
 });
 
 test('should provide truthy canMoveBack to NavBar', () => {
-  const goBack = jest.fn();
-  const goForward = jest.fn();
-  const push = jest.fn();
-
-  mockedUseHistory.mockReturnValue({
-    index: 2,
-    length: 5,
-    goBack,
-    goForward,
-    push,
-  } as unknown as History<unknown>);
+  mockedUseContext.mockReturnValue({
+    navigator: {
+      index: 2,
+      length: 5,
+    },
+  });
 
   const page = setup({});
 
@@ -150,17 +152,12 @@ test('should provide truthy canMoveBack to NavBar', () => {
 });
 
 test('should call goBack', () => {
-  const goBack = jest.fn();
-  const goForward = jest.fn();
-  const push = jest.fn();
-
-  mockedUseHistory.mockReturnValue({
-    index: 2,
-    length: 5,
-    goBack,
-    goForward,
-    push,
-  } as unknown as History<unknown>);
+  mockedUseContext.mockReturnValue({
+    navigator: {
+      index: 2,
+      length: 5,
+    },
+  });
 
   const page = setup({});
 
@@ -168,21 +165,17 @@ test('should call goBack', () => {
 
   navBarNode.props.goBack();
 
-  expect(goBack).toHaveBeenCalledTimes(1);
+  expect(navigate).toHaveBeenCalledTimes(1);
+  expect(navigate).toHaveBeenCalledWith(-1);
 });
 
 test('should call goForward', () => {
-  const goBack = jest.fn();
-  const goForward = jest.fn();
-  const push = jest.fn();
-
-  mockedUseHistory.mockReturnValue({
-    index: 2,
-    length: 5,
-    goBack,
-    goForward,
-    push,
-  } as unknown as History<unknown>);
+  mockedUseContext.mockReturnValue({
+    navigator: {
+      index: 2,
+      length: 5,
+    },
+  });
 
   const page = setup({});
 
@@ -190,21 +183,17 @@ test('should call goForward', () => {
 
   navBarNode.props.goForward();
 
-  expect(goForward).toHaveBeenCalledTimes(1);
+  expect(navigate).toHaveBeenCalledTimes(1);
+  expect(navigate).toHaveBeenCalledWith(1);
 });
 
 test('should call goTo', () => {
-  const goBack = jest.fn();
-  const goForward = jest.fn();
-  const push = jest.fn();
-
-  mockedUseHistory.mockReturnValue({
-    index: 2,
-    length: 5,
-    goBack,
-    goForward,
-    push,
-  } as unknown as History<unknown>);
+  mockedUseContext.mockReturnValue({
+    navigator: {
+      index: 2,
+      length: 5,
+    },
+  });
 
   const page = setup({});
 
@@ -212,6 +201,6 @@ test('should call goTo', () => {
 
   navBarNode.props.goTo('/test/');
 
-  expect(push).toHaveBeenCalledTimes(1);
-  expect(push).toHaveBeenCalledWith('/test/');
+  expect(navigate).toHaveBeenCalledTimes(1);
+  expect(navigate).toHaveBeenCalledWith('/test/');
 });

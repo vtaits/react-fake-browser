@@ -1,4 +1,5 @@
 import {
+  useContext,
   useCallback,
 } from 'react';
 import type {
@@ -6,13 +7,18 @@ import type {
 } from 'react';
 
 import {
-  useHistory,
+  UNSAFE_NavigationContext,
+  useNavigate,
   useLocation,
 } from 'react-router-dom';
 
 import {
   NavBar,
 } from '@vtaits/react-fake-browser-ui';
+
+import type {
+  HistoryType,
+} from './types';
 
 export type NavBarForRouterProps = {
   refresh: () => void;
@@ -21,20 +27,26 @@ export type NavBarForRouterProps = {
 export function NavBarForRouter({
   refresh,
 }: NavBarForRouterProps): ReactElement {
-  const history = useHistory();
+  const {
+    navigator,
+  } = useContext(UNSAFE_NavigationContext);
+
+  const history = navigator as unknown as HistoryType;
+
+  const navigate = useNavigate();
   const location = useLocation();
 
   const goBack = useCallback(() => {
-    history.goBack();
-  }, [history]);
+    navigate(-1);
+  }, [navigate]);
 
   const goForward = useCallback(() => {
-    history.goForward();
-  }, [history]);
+    navigate(1);
+  }, [navigate]);
 
   const goTo = useCallback((path: string) => {
-    history.push(path);
-  }, [history]);
+    navigate(path);
+  }, [navigate]);
 
   const historyIndex = (history as unknown as {
     index: number;

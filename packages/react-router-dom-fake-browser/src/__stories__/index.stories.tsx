@@ -3,7 +3,7 @@ import type {
 } from 'react';
 
 import {
-  Switch,
+  Routes,
   Route,
   Link,
 } from 'react-router-dom';
@@ -20,10 +20,10 @@ export const example = (args): ReactNode => (
   <Browser
     {...args}
   >
-    <Switch>
+    <Routes>
       <Route
-        path="/one"
-        render={(): ReactNode => (
+        path="one"
+        element={(
           <h1>
             Hello &quot;/one&quot;
           </h1>
@@ -31,8 +31,8 @@ export const example = (args): ReactNode => (
       />
 
       <Route
-        path="/two"
-        render={(): ReactNode => (
+        path="two"
+        element={(
           <h1>
             Hello &quot;/two&quot;
           </h1>
@@ -40,14 +40,14 @@ export const example = (args): ReactNode => (
       />
 
       <Route
-        path="/three"
-        render={(): ReactNode => (
+        path="three"
+        element={(
           <h1>
             Hello &quot;/three&quot;
           </h1>
         )}
       />
-    </Switch>
+    </Routes>
 
     <ul>
       <li>
