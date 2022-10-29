@@ -1,6 +1,6 @@
 {
   "name": "@vtaits/react-router-dom-fake-browser",
-  "version": "0.2.1",
+  "version": "0.3.0-alpha.1",
   "description": "Embeddable fake browser for react applications based on react-router-dom",
   "files": [
     "dist"

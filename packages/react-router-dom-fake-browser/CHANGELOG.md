@@ -1,3 +1,7 @@
+## 0.3.0-alpha.1 (29 oct 2022)
+
+* Upgrade `react-router` to `v6`
+
 ## 0.2.1 (29 oct 2022)
 
 ### Typescript
