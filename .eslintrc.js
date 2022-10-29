@@ -13,6 +13,7 @@ module.exports = {
   ],
 
   plugins: [
+    'import',
     'react',
     'jest',
     '@typescript-eslint',
