@@ -1,1 +1,1 @@
-export { default as Browser } from './Browser';
+export { Browser } from './Browser';

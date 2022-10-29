@@ -1,11 +1,7 @@
 import type {
   ReactNode,
 } from 'react';
-import {
-  withKnobs,
-  boolean,
-  text,
-} from '@storybook/addon-knobs';
+
 import { action } from '@storybook/addon-actions';
 
 import {
@@ -14,19 +10,22 @@ import {
 
 export default {
   title: 'react-fake-browser-ui',
-  decorators: [withKnobs],
 };
 
-export const fakeBrowser = (): ReactNode => (
+export const fakeBrowser = (args): ReactNode => (
   <FakeBrowser
-    canMoveForward={boolean('canMoveForward', false)}
-    canMoveBack={boolean('canMoveBack', false)}
-    currentAddress={text('currentAddress', '')}
     refresh={action('refresh')}
     goBack={action('goBack')}
     goForward={action('goForward')}
     goTo={action('goTo')}
+    {...args}
   >
     Hello, world!
   </FakeBrowser>
 );
+
+fakeBrowser.args = {
+  canMoveForward: false,
+  canMoveBack: false,
+  currentAddress: '',
+};

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const StyledButton = styled.button(({
+export const Button = styled.button(({
   disabled,
 }) => ({
   marginLeft: 5,
@@ -15,13 +15,11 @@ const StyledButton = styled.button(({
   outline: 'none',
   color: disabled ? '#999' : '#333',
 
-  ':hover': disabled ? null : {
+  ':hover': disabled ? undefined : {
     backgroundColor: '#ddd',
   },
 
-  ':active': disabled ? null : {
+  ':active': disabled ? undefined : {
     backgroundColor: '#d0d0d0',
   },
 }));
-
-export default StyledButton;

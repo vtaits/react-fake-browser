@@ -1,48 +1,58 @@
-/* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-explicit-any */
+/* eslint-disable react/jsx-props-no-spreading */
 
 import type {
-  FC,
+  ReactElement,
+  ReactNode,
 } from 'react';
-import {
-  shallow,
-} from 'enzyme';
+
+import { createRenderer } from 'react-test-renderer/shallow';
+
 import type {
-  ShallowWrapper,
-} from 'enzyme';
+  NavBarProps,
+} from '../NavBar';
 
-import NavBar from '../NavBar';
-
-import FakeBrowser from '../FakeBrowser';
+import { FakeBrowser } from '../FakeBrowser';
+import type {
+  FakeBrowserProps,
+} from '../FakeBrowser';
 
 type PageObject = {
-  getNavBarNode: () => ShallowWrapper;
-  wrapper: ShallowWrapper;
+  getNavBarNode: () => ReactElement<NavBarProps>;
+  getChildren: () => ReactNode;
 };
 
-const defaultProps = {
+const defaultProps: FakeBrowserProps = {
   canMoveForward: false,
   canMoveBack: false,
   currentAddress: '',
-  refresh: Function.prototype,
-  goBack: Function.prototype,
-  goForward: Function.prototype,
-  goTo: Function.prototype,
+  refresh: () => undefined,
+  goBack: () => undefined,
+  goForward: () => undefined,
+  goTo: () => undefined,
   children: <div />,
 };
 
-const setup = (props: Record<string, any>): PageObject => {
-  const wrapper = shallow(
+const setup = (props: Partial<FakeBrowserProps>): PageObject => {
+  const renderer = createRenderer();
+
+  renderer.render(
     <FakeBrowser
       {...defaultProps}
       {...props}
     />,
   );
 
-  const getNavBarNode = (): ShallowWrapper => wrapper.find(NavBar);
+  const result = renderer.getRenderOutput() as ReactElement<{
+    children: ReactNode[];
+  }>;
+
+  const getNavBarNode = () => result.props.children[0] as ReactElement<NavBarProps>;
+
+  const getChildren = () => result.props.children[1] as ReactNode;
 
   return {
     getNavBarNode,
-    wrapper,
+    getChildren,
   };
 };
 
@@ -64,23 +74,19 @@ test('should provide props to NavBar', () => {
 
   const navBarNode = page.getNavBarNode();
 
-  expect(navBarNode.prop('canMoveForward')).toBe(true);
-  expect(navBarNode.prop('canMoveBack')).toBe(true);
-  expect(navBarNode.prop('currentAddress')).toBe('/test/');
-  expect(navBarNode.prop('refresh')).toBe(refresh);
-  expect(navBarNode.prop('goBack')).toBe(goBack);
-  expect(navBarNode.prop('goForward')).toBe(goForward);
-  expect(navBarNode.prop('goTo')).toBe(goTo);
+  expect(navBarNode.props.canMoveForward).toBe(true);
+  expect(navBarNode.props.canMoveBack).toBe(true);
+  expect(navBarNode.props.currentAddress).toBe('/test/');
+  expect(navBarNode.props.refresh).toBe(refresh);
+  expect(navBarNode.props.goBack).toBe(goBack);
+  expect(navBarNode.props.goForward).toBe(goForward);
+  expect(navBarNode.props.goTo).toBe(goTo);
 });
 
 test('should render children', () => {
-  const Test: FC = () => <span />;
-
   const page = setup({
-    children: <Test />,
+    children: 'test',
   });
 
-  const testNode = page.wrapper.find(Test);
-
-  expect(testNode.length).toBe(1);
+  expect(page.getChildren()).toBe('test');
 });

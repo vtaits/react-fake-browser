@@ -1,26 +1,26 @@
 import {
-  useState as defaultUseState,
+  useState,
   useCallback,
   Fragment,
 } from 'react';
 import type {
-  ComponentProps,
-  FC,
+  ReactElement,
 } from 'react';
+
 import {
   MemoryRouter,
 } from 'react-router-dom';
+import type {
+  MemoryRouterProps,
+} from 'react-router-dom';
 
-import NavBarForRouter from './NavBarForRouter';
+import { NavBarForRouter } from './NavBarForRouter';
 
 const increase = (prevValue: number): number => prevValue + 1;
 
-const Browser: FC<ComponentProps<typeof MemoryRouter> & {
-  useState?: typeof defaultUseState;
-}> = (props) => {
+export function Browser(props: MemoryRouterProps): ReactElement {
   const {
     children,
-    useState,
     ...rest
   } = props;
 
@@ -38,21 +38,11 @@ const Browser: FC<ComponentProps<typeof MemoryRouter> & {
         refresh={refresh}
       />
 
-      {
-        [
-          <Fragment
-            key={uniq}
-          >
-            {children}
-          </Fragment>,
-        ]
-      }
+      <Fragment
+        key={uniq}
+      >
+        {children}
+      </Fragment>
     </MemoryRouter>
   );
-};
-
-Browser.defaultProps = {
-  useState: defaultUseState,
-};
-
-export default Browser;
+}

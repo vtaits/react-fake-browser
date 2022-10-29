@@ -1,11 +1,7 @@
 import type {
   ReactNode,
 } from 'react';
-import {
-  withKnobs,
-  number,
-  array,
-} from '@storybook/addon-knobs';
+
 import {
   Switch,
   Route,
@@ -18,13 +14,11 @@ import {
 
 export default {
   title: 'react-router-dom-fake-browser',
-  decorators: [withKnobs],
 };
 
-export const example = (): ReactNode => (
+export const example = (args): ReactNode => (
   <Browser
-    initialEntries={array('initialEntries', ['/one', '/two', '/three'])}
-    initialIndex={number('initialIndex', 0)}
+    {...args}
   >
     <Switch>
       <Route
@@ -83,3 +77,8 @@ export const example = (): ReactNode => (
     </ul>
   </Browser>
 );
+
+example.args = {
+  initialEntries: ['/one', '/two', '/three'],
+  initialIndex: 0,
+};

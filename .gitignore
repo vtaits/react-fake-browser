@@ -1,5 +1,3 @@
-lib
-es
-ts
+dist
 node_modules
 *.log

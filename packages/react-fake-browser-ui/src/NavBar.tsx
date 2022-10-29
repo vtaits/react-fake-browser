@@ -1,14 +1,16 @@
 import type {
-  FC,
+  ReactElement,
 } from 'react';
+
 import styled from 'styled-components';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { definition as faArrowLeft } from '@fortawesome/free-solid-svg-icons/faArrowLeft';
 import { definition as faArrowRight } from '@fortawesome/free-solid-svg-icons/faArrowRight';
 import { definition as faRedo } from '@fortawesome/free-solid-svg-icons/faRedo';
 
-import Button from './Button';
-import Address from './Address';
+import { Button } from './Button';
+import { Address } from './Address';
 
 const StyledNavBar = styled.div({
   display: 'flex',
@@ -16,7 +18,7 @@ const StyledNavBar = styled.div({
   backgroundColor: '#f6f6f6',
 });
 
-type Props = {
+export type NavBarProps = {
   canMoveForward: boolean;
   canMoveBack: boolean;
   currentAddress: string;
@@ -26,7 +28,7 @@ type Props = {
   goTo: (nextAddress: string) => void;
 };
 
-const NavBar: FC<Props> = ({
+export function NavBar({
   canMoveForward,
   canMoveBack,
   currentAddress,
@@ -34,43 +36,43 @@ const NavBar: FC<Props> = ({
   goBack,
   goForward,
   goTo,
-}) => (
-  <StyledNavBar>
-    <Button
-      type="button"
-      onClick={goBack}
-      disabled={!canMoveBack}
-    >
-      <FontAwesomeIcon
-        icon={faArrowLeft}
+}: NavBarProps): ReactElement {
+  return (
+    <StyledNavBar>
+      <Button
+        type="button"
+        onClick={goBack}
+        disabled={!canMoveBack}
+      >
+        <FontAwesomeIcon
+          icon={faArrowLeft}
+        />
+      </Button>
+
+      <Button
+        type="button"
+        onClick={goForward}
+        disabled={!canMoveForward}
+      >
+        <FontAwesomeIcon
+          icon={faArrowRight}
+        />
+      </Button>
+
+      <Button
+        type="button"
+        onClick={refresh}
+      >
+        <FontAwesomeIcon
+          icon={faRedo}
+        />
+      </Button>
+
+      <Address
+        currentAddress={currentAddress}
+        goTo={goTo}
+        refresh={refresh}
       />
-    </Button>
-
-    <Button
-      type="button"
-      onClick={goForward}
-      disabled={!canMoveForward}
-    >
-      <FontAwesomeIcon
-        icon={faArrowRight}
-      />
-    </Button>
-
-    <Button
-      type="button"
-      onClick={refresh}
-    >
-      <FontAwesomeIcon
-        icon={faRedo}
-      />
-    </Button>
-
-    <Address
-      currentAddress={currentAddress}
-      goTo={goTo}
-      refresh={refresh}
-    />
-  </StyledNavBar>
-);
-
-export default NavBar;
+    </StyledNavBar>
+  );
+}

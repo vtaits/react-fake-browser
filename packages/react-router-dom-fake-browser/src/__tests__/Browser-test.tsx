@@ -1,61 +1,91 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
+import {
+  useState,
+} from 'react';
 import type {
   ComponentProps,
-  FC,
+  ReactElement,
+  ReactNode,
 } from 'react';
-import {
-  shallow,
-} from 'enzyme';
-import type {
-  ShallowWrapper,
-} from 'enzyme';
+
+import { createRenderer } from 'react-test-renderer/shallow';
+
 import {
   MemoryRouter,
 } from 'react-router-dom';
+import type {
+  MemoryRouterProps,
+} from 'react-router-dom';
 
-import NavBarForRouter from '../NavBarForRouter';
+import type {
+  NavBarForRouterProps,
+} from '../NavBarForRouter';
 
-import Browser from '../Browser';
+import { Browser } from '../Browser';
+
+jest.mock('react', () => ({
+  ...jest.requireActual('react'),
+
+  useState: jest.fn().mockReturnValue([1, () => undefined]),
+}));
+
+const mockedUseState = jest.mocked(useState);
+
+beforeEach(() => {
+  mockedUseState.mockReturnValue([1, () => undefined]);
+});
+
+afterEach(() => {
+  jest.clearAllMocks();
+});
 
 type PageObject = {
-  getRouterNode: () => ShallowWrapper<ComponentProps<typeof MemoryRouter>>;
-  getNavBarNode: () => ShallowWrapper<ComponentProps<typeof NavBarForRouter>>;
-  wrapper: ShallowWrapper;
+  getRouterNode: () => ReactElement<ComponentProps<typeof MemoryRouter>>;
+  getNavBarNode: () => ReactElement<NavBarForRouterProps>;
+  getChildren: () => ReactNode;
 };
 
-const setup = (props: Record<string, any>): PageObject => {
-  const wrapper = shallow(
+const setup = (props: MemoryRouterProps): PageObject => {
+  const renderer = createRenderer();
+
+  renderer.render(
     <Browser
       {...props}
     />,
   );
 
-  const getRouterNode = (): ShallowWrapper<ComponentProps<typeof MemoryRouter>> => wrapper
-    .find(MemoryRouter);
+  const result = renderer.getRenderOutput() as ReactElement<
+  ComponentProps<typeof MemoryRouter>,
+  typeof MemoryRouter
+  >;
 
-  const getNavBarNode = (): ShallowWrapper<ComponentProps<typeof NavBarForRouter>> => wrapper
-    .find(NavBarForRouter);
+  const getRouterNode = () => result;
+
+  const getNavBarNode = () => (result.props.children as ReactNode[])[0] as ReactElement<
+  NavBarForRouterProps
+  >;
+
+  const getChildren = () => ((result.props.children as ReactNode[])[1] as ReactElement)
+    .props.children as ReactNode;
 
   return {
     getRouterNode,
     getNavBarNode,
-    wrapper,
+    getChildren,
   };
 };
 
 test('should refresh with NavBarForRouter', () => {
   const setUniq = jest.fn();
 
-  const page = setup({
-    useState: () => [1, setUniq],
-  });
+  mockedUseState.mockReturnValue([1, setUniq]);
+
+  const page = setup({});
 
   const navBarNode = page.getNavBarNode();
 
-  navBarNode.prop('refresh')();
+  navBarNode.props.refresh();
 
-  expect(setUniq.mock.calls.length).toBe(1);
+  expect(setUniq).toHaveBeenCalledTimes(1);
 });
 
 test('should provide props to MemoryRouter', () => {
@@ -68,16 +98,14 @@ test('should provide props to MemoryRouter', () => {
 
   const routerNode = page.getRouterNode();
 
-  expect(routerNode.prop('initialEntries')).toBe(initialEntries);
-  expect(routerNode.prop('initialIndex')).toBe(5);
+  expect(routerNode.props.initialEntries).toBe(initialEntries);
+  expect(routerNode.props.initialIndex).toBe(5);
 });
 
 test('should render children', () => {
-  const Test: FC = () => <span />;
-
   const page = setup({
-    children: <Test />,
+    children: 'test',
   });
 
-  expect(page.wrapper.find(Test).length).toBe(1);
+  expect(page.getChildren()).toBe('test');
 });

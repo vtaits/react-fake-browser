@@ -1,14 +1,18 @@
 import {
-  useState as defaultUseState,
+  useState,
   useCallback,
-  useEffect as defaultUseEffect,
+  useEffect,
 } from 'react';
 import type {
-  FC,
+  ReactElement,
   SyntheticEvent,
 } from 'react';
+
+import useLatest from 'use-latest';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { definition as faAngleRight } from '@fortawesome/free-solid-svg-icons/faAngleRight';
+
 import styled from 'styled-components';
 
 export const StyledForm = styled.form({
@@ -52,38 +56,39 @@ export const StyledInput = styled.input({
   paddingRight: 40,
 });
 
-type Props = {
+export type AddressProps = {
   currentAddress: string;
   refresh: () => void;
   goTo: (nextAddress: string) => void;
-  useState?: typeof defaultUseState;
-  useEffect?: typeof defaultUseEffect;
 };
 
-const Address: FC<Props> = ({
+export function Address({
   currentAddress,
   refresh,
   goTo,
-  useState,
-  useEffect,
-}) => {
+}: AddressProps): ReactElement {
   const [address, setAddress] = useState<string>(currentAddress);
+  const addressRef = useLatest(address);
 
   const isSameAddresses = address === currentAddress;
+  const isSameAddressesRef = useLatest(isSameAddresses);
 
   const onChange = useCallback((event: SyntheticEvent): void => {
     setAddress((event.target as HTMLInputElement).value);
   }, []);
 
-  const onSubmit = (event: SyntheticEvent): void => {
+  const onSubmit = useCallback((event: SyntheticEvent): void => {
     event.preventDefault();
 
-    if (isSameAddresses) {
+    if (isSameAddressesRef.current) {
       refresh();
     } else {
-      goTo(address);
+      goTo(addressRef.current);
     }
-  };
+  }, [
+    refresh,
+    goTo,
+  ]);
 
   useEffect(() => {
     if (!isSameAddresses) {
@@ -114,11 +119,4 @@ const Address: FC<Props> = ({
       }
     </StyledForm>
   );
-};
-
-Address.defaultProps = {
-  useState: defaultUseState,
-  useEffect: defaultUseEffect,
-};
-
-export default Address;
+}

@@ -1,49 +1,64 @@
-/* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-explicit-any */
+/* eslint-disable react/jsx-props-no-spreading */
 
-import {
-  shallow,
-} from 'enzyme';
 import type {
-  ShallowWrapper,
-} from 'enzyme';
+  ReactElement,
+  ReactNode,
+} from 'react';
 
-import Button from '../Button';
-import Address from '../Address';
+import { createRenderer } from 'react-test-renderer/shallow';
 
-import NavBar from '../NavBar';
+import type {
+  AddressProps,
+} from '../Address';
 
-type PageObject = {
-  getAddressNode: () => ShallowWrapper;
-  getBackButtonNode: () => ShallowWrapper;
-  getForwardButtonNode: () => ShallowWrapper;
-  getRefreshButtonNode: () => ShallowWrapper;
+import { NavBar } from '../NavBar';
+import type {
+  NavBarProps,
+} from '../NavBar';
+
+type ButtonProps = {
+  disabled?: boolean;
+  onClick: () => void;
 };
 
-const defaultProps = {
+type PageObject = {
+  getAddressNode: () => ReactElement<AddressProps>;
+  getBackButtonNode: () => ReactElement<ButtonProps>;
+  getForwardButtonNode: () => ReactElement<ButtonProps>;
+  getRefreshButtonNode: () => ReactElement<ButtonProps>;
+};
+
+const defaultProps: NavBarProps = {
   canMoveForward: false,
   canMoveBack: false,
   currentAddress: '',
-  refresh: Function.prototype,
-  goBack: Function.prototype,
-  goForward: Function.prototype,
-  goTo: Function.prototype,
+  refresh: () => undefined,
+  goBack: () => undefined,
+  goForward: () => undefined,
+  goTo: () => undefined,
 };
 
-const setup = (props: Record<string, any>): PageObject => {
-  const wrapper = shallow(
+const setup = (props: Partial<NavBarProps>): PageObject => {
+  const renderer = createRenderer();
+
+  renderer.render(
     <NavBar
       {...defaultProps}
       {...props}
     />,
   );
 
-  const getAddressNode = (): ShallowWrapper => wrapper.find(Address);
+  const result = renderer.getRenderOutput() as ReactElement<{
+    children: ReactNode[];
+  }>;
 
-  const getBackButtonNode = (): ShallowWrapper => wrapper.find(Button).at(0);
+  const getAddressNode = () => result.props.children[3] as ReactElement<AddressProps>;
 
-  const getForwardButtonNode = (): ShallowWrapper => wrapper.find(Button).at(1);
+  const getBackButtonNode = () => result.props.children[0] as ReactElement<ButtonProps>;
 
-  const getRefreshButtonNode = (): ShallowWrapper => wrapper.find(Button).at(2);
+  const getForwardButtonNode = () => result.props.children[1] as ReactElement<ButtonProps>;
+
+  const getRefreshButtonNode = () => result.props.children[2] as ReactElement<ButtonProps>;
 
   return {
     getAddressNode,
@@ -65,9 +80,9 @@ test('should provide props to Address', () => {
 
   const addressNode = page.getAddressNode();
 
-  expect(addressNode.prop('refresh')).toBe(refresh);
-  expect(addressNode.prop('goTo')).toBe(goTo);
-  expect(addressNode.prop('currentAddress')).toBe('/test/');
+  expect(addressNode.props.refresh).toBe(refresh);
+  expect(addressNode.props.goTo).toBe(goTo);
+  expect(addressNode.props.currentAddress).toBe('/test/');
 });
 
 test('should provide props to refresh button', () => {
@@ -79,7 +94,7 @@ test('should provide props to refresh button', () => {
 
   const refreshButtonNode = page.getRefreshButtonNode();
 
-  expect(refreshButtonNode.prop('onClick')).toBe(refresh);
+  expect(refreshButtonNode.props.onClick).toBe(refresh);
 });
 
 test('should render disabled back button', () => {
@@ -92,8 +107,8 @@ test('should render disabled back button', () => {
 
   const backButtonNode = page.getBackButtonNode();
 
-  expect(backButtonNode.prop('disabled')).toBe(true);
-  expect(backButtonNode.prop('onClick')).toBe(goBack);
+  expect(backButtonNode.props.disabled).toBe(true);
+  expect(backButtonNode.props.onClick).toBe(goBack);
 });
 
 test('should render enabled back button', () => {
@@ -106,8 +121,8 @@ test('should render enabled back button', () => {
 
   const backButtonNode = page.getBackButtonNode();
 
-  expect(backButtonNode.prop('disabled')).toBe(false);
-  expect(backButtonNode.prop('onClick')).toBe(goBack);
+  expect(backButtonNode.props.disabled).toBe(false);
+  expect(backButtonNode.props.onClick).toBe(goBack);
 });
 
 test('should render disabled forward button', () => {
@@ -120,8 +135,8 @@ test('should render disabled forward button', () => {
 
   const forwardButtonNode = page.getForwardButtonNode();
 
-  expect(forwardButtonNode.prop('disabled')).toBe(true);
-  expect(forwardButtonNode.prop('onClick')).toBe(goForward);
+  expect(forwardButtonNode.props.disabled).toBe(true);
+  expect(forwardButtonNode.props.onClick).toBe(goForward);
 });
 
 test('should render enabled forward button', () => {
@@ -134,6 +149,6 @@ test('should render enabled forward button', () => {
 
   const forwardButtonNode = page.getForwardButtonNode();
 
-  expect(forwardButtonNode.prop('disabled')).toBe(false);
-  expect(forwardButtonNode.prop('onClick')).toBe(goForward);
+  expect(forwardButtonNode.props.disabled).toBe(false);
+  expect(forwardButtonNode.props.onClick).toBe(goForward);
 });

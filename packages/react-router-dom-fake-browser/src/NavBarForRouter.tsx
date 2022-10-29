@@ -2,27 +2,25 @@ import {
   useCallback,
 } from 'react';
 import type {
-  FC,
+  ReactElement,
 } from 'react';
+
 import {
-  useHistory as defaultUseHistory,
-  useLocation as defaultUseLocation,
+  useHistory,
+  useLocation,
 } from 'react-router-dom';
+
 import {
   NavBar,
 } from '@vtaits/react-fake-browser-ui';
 
-type Props = {
+export type NavBarForRouterProps = {
   refresh: () => void;
-  useHistory?: typeof defaultUseHistory;
-  useLocation?: typeof defaultUseLocation;
 };
 
-const NavBarForRouter: FC<Props> = ({
+export function NavBarForRouter({
   refresh,
-  useHistory,
-  useLocation,
-}) => {
+}: NavBarForRouterProps): ReactElement {
   const history = useHistory();
   const location = useLocation();
 
@@ -34,7 +32,7 @@ const NavBarForRouter: FC<Props> = ({
     history.goForward();
   }, [history]);
 
-  const goTo = useCallback((path) => {
+  const goTo = useCallback((path: string) => {
     history.push(path);
   }, [history]);
 
@@ -53,11 +51,4 @@ const NavBarForRouter: FC<Props> = ({
       goTo={goTo}
     />
   );
-};
-
-NavBarForRouter.defaultProps = {
-  useHistory: defaultUseHistory,
-  useLocation: defaultUseLocation,
-};
-
-export default NavBarForRouter;
+}

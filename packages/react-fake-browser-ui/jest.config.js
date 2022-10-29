@@ -3,7 +3,14 @@ module.exports = {
     '/node_modules/',
   ],
 
-  setupFiles: [
-    './setup-jest.js',
-  ],
+  extensionsToTreatAsEsm: ['.ts', '.tsx'],
+
+  transform: {
+    '\\.tsx?$': [
+      'ts-jest',
+      {
+        useESM: true,
+      },
+    ],
+  },
 };

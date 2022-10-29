@@ -2,43 +2,49 @@
   "name": "@vtaits/react-router-dom-fake-browser",
   "version": "0.2.0",
   "description": "Embeddable fake browser for react applications based on react-router-dom",
-  "main": "lib/index.js",
-  "module": "es/index.js",
-  "typings": "ts/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "typings": "dist/index.d.ts",
   "keywords": [
     "fake",
     "browser",
     "embeddable",
     "react-router"
   ],
-  "files": [
-    "/es",
-    "/lib/",
-    "/ts"
-  ],
   "repository": "git@github.com:vtaits/react-fake-browser.git",
   "author": "Vadim Taits <taizvadim@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "clean": "rimraf lib es ts",
-    "build:cjs": "cross-env BABEL_ENV=cjs babel --extensions '.ts,.tsx' src --out-dir lib --ignore \"src/**/__tests__\",\"src/**/__stories__\"",
-    "build:es": "cross-env BABEL_ENV=es babel --extensions '.ts,.tsx' src --out-dir es --ignore \"src/**/__tests__\",\"src/**/__stories__\"",
-    "build:ts": "tsc --declaration",
-    "build": "yarn clean && yarn build:cjs && yarn build:es && yarn build:ts",
+    "build": "tsup src/index.ts --sourcemap --format esm,cjs --dts",
     "lint": "eslint src --ext .ts,.tsx --ignore-path ../../.gitignore",
     "test:unit": "jest",
     "test": "yarn test:unit",
     "prepare": "yarn build"
   },
   "peerDependencies": {
-    "react": "^16.14.0 || ^17.0.0",
+    "react": "^16.14.0 || ^17.0.0 || ^18.0.0",
     "react-router-dom": "^5.0.0"
   },
   "devDependencies": {
+    "@types/jest": "^29.2.0",
     "@types/react": "^18.0.24",
     "@types/react-router-dom": "^5.3.3",
+    "@types/react-test-renderer": "^18.0.0",
+    "jest": "^29.2.2",
     "react": "^18.2.0",
-    "react-router-dom": "^5.2.0"
+    "react-router-dom": "^5.2.0",
+    "react-test-renderer": "^18.2.0",
+    "ts-jest": "^29.0.3",
+    "tsup": "^6.3.0"
   },
   "dependencies": {
     "@vtaits/react-fake-browser-ui": "^0.2.0"

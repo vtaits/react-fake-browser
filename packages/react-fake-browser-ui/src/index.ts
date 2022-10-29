@@ -1,2 +1,2 @@
-export { default as FakeBrowser } from './FakeBrowser';
-export { default as NavBar } from './NavBar';
+export { FakeBrowser } from './FakeBrowser';
+export { NavBar } from './NavBar';

@@ -1,11 +1,11 @@
 import type {
-  FC,
-  ReactNode,
+  PropsWithChildren,
+  ReactElement,
 } from 'react';
 
-import NavBar from './NavBar';
+import { NavBar } from './NavBar';
 
-type Props = {
+export type FakeBrowserProps = PropsWithChildren<{
   canMoveForward: boolean;
   canMoveBack: boolean;
   currentAddress: string;
@@ -13,10 +13,9 @@ type Props = {
   goBack: () => void;
   goForward: () => void;
   goTo: (nextAddress: string) => void;
-  children: ReactNode;
-};
+}>;
 
-const FakeBrowser: FC<Props> = ({
+export function FakeBrowser({
   canMoveForward,
   canMoveBack,
   currentAddress,
@@ -25,20 +24,24 @@ const FakeBrowser: FC<Props> = ({
   goForward,
   goTo,
   children,
-}) => (
-  <>
-    <NavBar
-      canMoveForward={canMoveForward}
-      canMoveBack={canMoveBack}
-      currentAddress={currentAddress}
-      refresh={refresh}
-      goBack={goBack}
-      goForward={goForward}
-      goTo={goTo}
-    />
+}: FakeBrowserProps): ReactElement {
+  return (
+    <>
+      <NavBar
+        canMoveForward={canMoveForward}
+        canMoveBack={canMoveBack}
+        currentAddress={currentAddress}
+        refresh={refresh}
+        goBack={goBack}
+        goForward={goForward}
+        goTo={goTo}
+      />
 
-    {children}
-  </>
-);
+      {children}
+    </>
+  );
+}
 
-export default FakeBrowser;
+FakeBrowser.defaultProps = {
+  children: undefined,
+};
