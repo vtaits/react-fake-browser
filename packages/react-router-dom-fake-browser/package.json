@@ -1,6 +1,6 @@
 {
   "name": "@vtaits/react-router-dom-fake-browser",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Embeddable fake browser for react applications based on react-router-dom",
   "files": [
     "dist"
@@ -47,6 +47,6 @@
     "tsup": "^6.3.0"
   },
   "dependencies": {
-    "@vtaits/react-fake-browser-ui": "^0.2.0"
+    "@vtaits/react-fake-browser-ui": "^0.2.1"
   }
 }
