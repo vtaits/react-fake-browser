@@ -1,0 +1,92 @@
+import {
+  type ReactElement,
+  useEffect,
+  useState,
+} from 'react';
+
+import {
+  type MemoryRouterProps,
+  Switch,
+  Route,
+  Link,
+} from 'react-router-dom';
+
+import {
+  Browser,
+} from '../Browser';
+
+export function Example(props: MemoryRouterProps): ReactElement {
+  const {
+    initialEntries,
+    initialIndex,
+  } = props;
+
+  const [key, setKey] = useState(0);
+
+  useEffect(() => {
+    setKey((prevValue) => prevValue + 1);
+  }, [initialEntries, initialIndex]);
+
+  return (
+    <Browser
+      {...props}
+      key={key}
+    >
+      <Switch>
+        <Route
+          path="/one"
+          render={() => (
+            <h1>
+              Hello &quot;/one&quot;
+            </h1>
+          )}
+        />
+
+        <Route
+          path="/two"
+          render={() => (
+            <h1>
+              Hello &quot;/two&quot;
+            </h1>
+          )}
+        />
+
+        <Route
+          path="/three"
+          render={() => (
+            <h1>
+              Hello &quot;/three&quot;
+            </h1>
+          )}
+        />
+      </Switch>
+
+      <ul>
+        <li>
+          <Link
+            to="/one"
+          >
+            one
+          </Link>
+        </li>
+
+        <li>
+          <Link
+            to="/two"
+          >
+            two
+          </Link>
+        </li>
+
+        <li>
+          <Link
+            to="/three"
+          >
+            three
+          </Link>
+
+        </li>
+      </ul>
+    </Browser>
+  );
+}
