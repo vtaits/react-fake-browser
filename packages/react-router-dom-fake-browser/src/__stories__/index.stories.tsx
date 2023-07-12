@@ -1,84 +1,23 @@
-import type {
-  ReactNode,
-} from 'react';
+import type { Meta, StoryObj } from '@storybook/react';
 
-import {
-  Routes,
-  Route,
-  Link,
-} from 'react-router-dom';
+import { Browser } from '../Browser';
 
-import {
-  Browser,
-} from '..';
+import { Example } from './Example';
 
-export default {
+const meta: Meta<typeof Browser> = {
   title: 'react-router-dom-fake-browser',
+  component: Browser,
+  tags: ['autodocs'],
 };
 
-export const example = (args): ReactNode => (
-  <Browser
-    {...args}
-  >
-    <Routes>
-      <Route
-        path="one"
-        element={(
-          <h1>
-            Hello &quot;/one&quot;
-          </h1>
-        )}
-      />
+export default meta;
+type Story = StoryObj<typeof Browser>;
 
-      <Route
-        path="two"
-        element={(
-          <h1>
-            Hello &quot;/two&quot;
-          </h1>
-        )}
-      />
-
-      <Route
-        path="three"
-        element={(
-          <h1>
-            Hello &quot;/three&quot;
-          </h1>
-        )}
-      />
-    </Routes>
-
-    <ul>
-      <li>
-        <Link
-          to="/one"
-        >
-          one
-        </Link>
-      </li>
-
-      <li>
-        <Link
-          to="/two"
-        >
-          two
-        </Link>
-      </li>
-
-      <li>
-        <Link
-          to="/three"
-        >
-          three
-        </Link>
-
-      </li>
-    </ul>
-  </Browser>
-);
-
-example.args = {
-  initialEntries: ['/one', '/two', '/three'],
-  initialIndex: 0,
+export const ExampleStory: Story = {
+  name: 'Example',
+  render: (props) => <Example {...props} />,
+  args: {
+    initialEntries: ['/one', '/two', '/three'],
+    initialIndex: 0,
+  },
 };

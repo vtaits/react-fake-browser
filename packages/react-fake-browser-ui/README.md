@@ -6,6 +6,12 @@
 
 UI elements for creating fake browsers
 
+### Installation
+
+```sh
+yarn add @vtaits/react-fake-browser-ui styled-components
+```
+
 ### Examples
 
 - With `react-router-dom`: [demo](https://codesandbox.io/s/sv055), [package](https://github.com/vtaits/react-fake-browser/tree/master/packages/react-router-dom-fake-browser)

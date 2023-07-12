@@ -17,8 +17,8 @@ import styled from 'styled-components';
 
 export const StyledForm = styled.form({
   flex: 1,
-  marginLeft: 5,
-  marginRight: 5,
+  marginLeft: '5px',
+  marginRight: '5px',
   position: 'relative',
 });
 
@@ -30,9 +30,9 @@ export const StyledButton = styled.button({
   border: 'none',
   backgroundColor: 'transparent',
   cursor: 'pointer',
-  width: 24,
-  height: 24,
-  borderRadius: 12,
+  width: '24px',
+  height: '24px',
+  borderRadius: '12px',
   outline: 'none',
   color: '#333',
 
@@ -49,11 +49,11 @@ export const StyledInput = styled.input({
   boxSizing: 'border-box',
   outline: 'none',
   width: '100%',
-  height: 24,
-  borderRadius: 12,
+  height: '24px',
+  borderRadius: '12px',
   border: 'none',
-  paddingLeft: 12,
-  paddingRight: 40,
+  paddingLeft: '12px',
+  paddingRight: '40px',
 });
 
 export type AddressProps = {

@@ -6,6 +6,12 @@
 
 Embeddable fake browser based on `MemoryRouter` from `react-router-dom`
 
+## Installation
+
+```sh
+yarn add @vtaits/react-router-dom-fake-browser styled-components
+```
+
 ## Examples
 
 - [Simple](https://codesandbox.io/s/sv055)

@@ -14,7 +14,7 @@ import { Address } from './Address';
 
 const StyledNavBar = styled.div({
   display: 'flex',
-  padding: 5,
+  padding: '5px',
   backgroundColor: '#f6f6f6',
 });
 

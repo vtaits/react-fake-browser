@@ -1,31 +1,24 @@
-import type {
-  ReactNode,
-} from 'react';
+import type { Meta, StoryObj } from '@storybook/react';
 
-import { action } from '@storybook/addon-actions';
+import { FakeBrowser } from '../FakeBrowser';
 
-import {
-  FakeBrowser,
-} from '..';
+import { Example } from './Example';
 
-export default {
+const meta: Meta<typeof FakeBrowser> = {
   title: 'react-fake-browser-ui',
+  component: FakeBrowser,
+  tags: ['autodocs'],
 };
 
-export const fakeBrowser = (args): ReactNode => (
-  <FakeBrowser
-    refresh={action('refresh')}
-    goBack={action('goBack')}
-    goForward={action('goForward')}
-    goTo={action('goTo')}
-    {...args}
-  >
-    Hello, world!
-  </FakeBrowser>
-);
+export default meta;
+type Story = StoryObj<typeof FakeBrowser>;
 
-fakeBrowser.args = {
-  canMoveForward: false,
-  canMoveBack: false,
-  currentAddress: '',
+export const ExampleStory: Story = {
+  name: 'Example',
+  render: (props) => <Example {...props} />,
+  args: {
+    canMoveForward: false,
+    canMoveBack: false,
+    currentAddress: '',
+  },
 };
