@@ -1,46 +1,28 @@
-import {
-  useContext,
-} from 'react';
-import type {
-  ComponentProps,
-  ReactElement,
-} from 'react';
-
-import { createRenderer } from 'react-test-renderer/shallow';
-
-import {
-  useNavigate,
-  useLocation,
-} from 'react-router-dom';
-import type {
-  Location,
-} from 'react-router-dom';
-
-import {
-  NavBar,
-} from '@vtaits/react-fake-browser-ui';
-
-import { NavBarForRouter } from '../NavBarForRouter';
-import type {
-  NavBarForRouterProps,
-} from '../NavBarForRouter';
+import { NavBar } from "@vtaits/react-fake-browser-ui";
+import { useContext } from "react";
+import type { ComponentProps, ReactElement } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import type { Location } from "react-router-dom";
+import { createRenderer } from "react-test-renderer/shallow";
+import { NavBarForRouter } from "../NavBarForRouter";
+import type { NavBarForRouterProps } from "../NavBarForRouter";
 
 const navigate = jest.fn();
 
-jest.mock('react', () => ({
-  ...jest.requireActual('react'),
+jest.mock("react", () => ({
+	...jest.requireActual("react"),
 
-  useContext: jest.fn().mockReturnValue({
-    navigator: {
-      index: 0,
-      length: 0,
-    },
-  }),
+	useContext: jest.fn().mockReturnValue({
+		navigator: {
+			index: 0,
+			length: 0,
+		},
+	}),
 }));
 
-jest.mock('react-router-dom', () => ({
-  useNavigate: jest.fn(),
-  useLocation: jest.fn(),
+jest.mock("react-router-dom", () => ({
+	useNavigate: jest.fn(),
+	useLocation: jest.fn(),
 }));
 
 const mockedUseContext = jest.mocked(useContext);
@@ -48,159 +30,160 @@ const mockedUseNavigate = jest.mocked(useNavigate);
 const mockedUseLocation = jest.mocked(useLocation);
 
 beforeEach(() => {
-  mockedUseContext.mockReturnValue({
-    navigator: {
-      index: 0,
-      length: 0,
-    },
-  });
+	mockedUseContext.mockReturnValue({
+		navigator: {
+			index: 0,
+			length: 0,
+		},
+	});
 
-  mockedUseNavigate.mockReturnValue(navigate);
+	mockedUseNavigate.mockReturnValue(navigate);
 
-  mockedUseLocation.mockReturnValue({
-    pathname: '/',
-    search: '',
-  } as unknown as Location);
+	mockedUseLocation.mockReturnValue({
+		pathname: "/",
+		search: "",
+	} as unknown as Location);
 });
 
 afterEach(() => {
-  jest.clearAllMocks();
+	jest.clearAllMocks();
 });
 
 type PageObject = {
-  getNavBarNode: () => ReactElement<ComponentProps<typeof NavBar>, typeof NavBar>;
+	getNavBarNode: () => ReactElement<
+		ComponentProps<typeof NavBar>,
+		typeof NavBar
+	>;
 };
 
 const defaultProps: NavBarForRouterProps = {
-  refresh: () => undefined,
+	refresh: () => undefined,
 };
 
 const setup = (props: Partial<NavBarForRouterProps>): PageObject => {
-  const renderer = createRenderer();
+	const renderer = createRenderer();
 
-  renderer.render(
-    <NavBarForRouter
-      {...defaultProps}
-      {...props}
-    />,
-  );
+	renderer.render(<NavBarForRouter {...defaultProps} {...props} />);
 
-  const result = renderer.getRenderOutput() as ReactElement<ComponentProps<typeof NavBar>, typeof NavBar>;
+	const result = renderer.getRenderOutput() as ReactElement<
+		ComponentProps<typeof NavBar>,
+		typeof NavBar
+	>;
 
-  const getNavBarNode = () => result;
+	const getNavBarNode = () => result;
 
-  return {
-    getNavBarNode,
-  };
+	return {
+		getNavBarNode,
+	};
 };
 
-test('should provide props to NavBar', () => {
-  const refresh = jest.fn();
+test("should provide props to NavBar", () => {
+	const refresh = jest.fn();
 
-  mockedUseContext.mockReturnValue({
-    navigator: {
-      index: 0,
-      length: 1,
-    },
-  });
+	mockedUseContext.mockReturnValue({
+		navigator: {
+			index: 0,
+			length: 1,
+		},
+	});
 
-  mockedUseLocation.mockReturnValue({
-    pathname: '/test/',
-    search: '?123',
-  } as unknown as Location);
+	mockedUseLocation.mockReturnValue({
+		pathname: "/test/",
+		search: "?123",
+	} as unknown as Location);
 
-  const page = setup({
-    refresh,
-  });
+	const page = setup({
+		refresh,
+	});
 
-  const navBarNode = page.getNavBarNode();
+	const navBarNode = page.getNavBarNode();
 
-  expect(navBarNode.props.canMoveForward).toBe(false);
-  expect(navBarNode.props.canMoveBack).toBe(false);
-  expect(navBarNode.props.currentAddress).toBe('/test/?123');
-  expect(navBarNode.props.refresh).toBe(refresh);
+	expect(navBarNode.props.canMoveForward).toBe(false);
+	expect(navBarNode.props.canMoveBack).toBe(false);
+	expect(navBarNode.props.currentAddress).toBe("/test/?123");
+	expect(navBarNode.props.refresh).toBe(refresh);
 });
 
-test('should provide truthy canMoveForward to NavBar', () => {
-  mockedUseContext.mockReturnValue({
-    navigator: {
-      index: 2,
-      length: 5,
-    },
-  });
+test("should provide truthy canMoveForward to NavBar", () => {
+	mockedUseContext.mockReturnValue({
+		navigator: {
+			index: 2,
+			length: 5,
+		},
+	});
 
-  const page = setup({});
+	const page = setup({});
 
-  const navBarNode = page.getNavBarNode();
+	const navBarNode = page.getNavBarNode();
 
-  expect(navBarNode.props.canMoveForward).toBe(true);
+	expect(navBarNode.props.canMoveForward).toBe(true);
 });
 
-test('should provide truthy canMoveBack to NavBar', () => {
-  mockedUseContext.mockReturnValue({
-    navigator: {
-      index: 2,
-      length: 5,
-    },
-  });
+test("should provide truthy canMoveBack to NavBar", () => {
+	mockedUseContext.mockReturnValue({
+		navigator: {
+			index: 2,
+			length: 5,
+		},
+	});
 
-  const page = setup({});
+	const page = setup({});
 
-  const navBarNode = page.getNavBarNode();
+	const navBarNode = page.getNavBarNode();
 
-  expect(navBarNode.props.canMoveBack).toBe(true);
+	expect(navBarNode.props.canMoveBack).toBe(true);
 });
 
-test('should call goBack', () => {
-  mockedUseContext.mockReturnValue({
-    navigator: {
-      index: 2,
-      length: 5,
-    },
-  });
+test("should call goBack", () => {
+	mockedUseContext.mockReturnValue({
+		navigator: {
+			index: 2,
+			length: 5,
+		},
+	});
 
-  const page = setup({});
+	const page = setup({});
 
-  const navBarNode = page.getNavBarNode();
+	const navBarNode = page.getNavBarNode();
 
-  navBarNode.props.goBack();
+	navBarNode.props.goBack();
 
-  expect(navigate).toHaveBeenCalledTimes(1);
-  expect(navigate).toHaveBeenCalledWith(-1);
+	expect(navigate).toHaveBeenCalledTimes(1);
+	expect(navigate).toHaveBeenCalledWith(-1);
 });
 
-test('should call goForward', () => {
-  mockedUseContext.mockReturnValue({
-    navigator: {
-      index: 2,
-      length: 5,
-    },
-  });
+test("should call goForward", () => {
+	mockedUseContext.mockReturnValue({
+		navigator: {
+			index: 2,
+			length: 5,
+		},
+	});
 
-  const page = setup({});
+	const page = setup({});
 
-  const navBarNode = page.getNavBarNode();
+	const navBarNode = page.getNavBarNode();
 
-  navBarNode.props.goForward();
+	navBarNode.props.goForward();
 
-  expect(navigate).toHaveBeenCalledTimes(1);
-  expect(navigate).toHaveBeenCalledWith(1);
+	expect(navigate).toHaveBeenCalledTimes(1);
+	expect(navigate).toHaveBeenCalledWith(1);
 });
 
-test('should call goTo', () => {
-  mockedUseContext.mockReturnValue({
-    navigator: {
-      index: 2,
-      length: 5,
-    },
-  });
+test("should call goTo", () => {
+	mockedUseContext.mockReturnValue({
+		navigator: {
+			index: 2,
+			length: 5,
+		},
+	});
 
-  const page = setup({});
+	const page = setup({});
 
-  const navBarNode = page.getNavBarNode();
+	const navBarNode = page.getNavBarNode();
 
-  navBarNode.props.goTo('/test/');
+	navBarNode.props.goTo("/test/");
 
-  expect(navigate).toHaveBeenCalledTimes(1);
-  expect(navigate).toHaveBeenCalledWith('/test/');
+	expect(navigate).toHaveBeenCalledTimes(1);
+	expect(navigate).toHaveBeenCalledWith("/test/");
 });

@@ -1,266 +1,249 @@
-/* eslint-disable react/jsx-props-no-spreading */
-
-import {
-  useState,
-  useEffect,
-} from 'react';
+import { useEffect, useState } from "react";
 import type {
-  ChangeEvent,
-  HTMLProps,
-  ReactElement,
-  ReactNode,
-  SyntheticEvent,
-} from 'react';
+	ChangeEvent,
+	HTMLProps,
+	ReactElement,
+	ReactNode,
+	SyntheticEvent,
+} from "react";
 
-import { createRenderer } from 'react-test-renderer/shallow';
+import { createRenderer } from "react-test-renderer/shallow";
 
-import useLatest from 'use-latest';
+import useLatest from "use-latest";
 
-import {
-  Address,
-} from '../Address';
-import type {
-  AddressProps,
-} from '../Address';
+import { Address } from "../Address";
+import type { AddressProps } from "../Address";
 
-jest.mock('react', () => ({
-  ...jest.requireActual('react'),
+jest.mock("react", () => ({
+	...jest.requireActual("react"),
 
-  useState: jest.fn()
-    .mockReturnValue(['', () => undefined]),
+	useState: jest.fn().mockReturnValue(["", () => undefined]),
 
-  useEffect: jest.fn(),
+	useEffect: jest.fn(),
 }));
 
-jest.mock('use-latest');
+jest.mock("use-latest");
 
 const mockedUseState = jest.mocked(useState);
 const mockedUseEffect = jest.mocked(useEffect);
 const mockedUseLatest = jest.mocked(useLatest);
 
 beforeEach(() => {
-  mockedUseState
-    .mockReturnValue(['', () => undefined]);
+	mockedUseState.mockReturnValue(["", () => undefined]);
 
-  mockedUseLatest
-    .mockReturnValueOnce({
-      current: '',
-    })
-    .mockReturnValueOnce({
-      current: true,
-    });
+	mockedUseLatest
+		.mockReturnValueOnce({
+			current: "",
+		})
+		.mockReturnValueOnce({
+			current: true,
+		});
 });
 
 afterEach(() => {
-  jest.clearAllMocks();
+	jest.clearAllMocks();
 });
 
 type PageObject = {
-  getFormNode: () => ReactElement<{
-    onSubmit: (event: SyntheticEvent) => void;
-  }>;
-  getButtonNode: () => ReactNode | null;
-  getInputNode: () => ReactElement<HTMLProps<HTMLInputElement>>;
+	getFormNode: () => ReactElement<{
+		onSubmit: (event: SyntheticEvent) => void;
+	}>;
+	getButtonNode: () => ReactNode | null;
+	getInputNode: () => ReactElement<HTMLProps<HTMLInputElement>>;
 };
 
 const defaultProps: AddressProps = {
-  currentAddress: '',
-  goTo: jest.fn(),
-  refresh: jest.fn(),
+	currentAddress: "",
+	goTo: jest.fn(),
+	refresh: jest.fn(),
 };
 
 const setup = (props: Partial<AddressProps>): PageObject => {
-  const renderer = createRenderer();
+	const renderer = createRenderer();
 
-  renderer.render(
-    <Address
-      {...defaultProps}
-      {...props}
-    />,
-  );
+	renderer.render(<Address {...defaultProps} {...props} />);
 
-  const result = renderer.getRenderOutput() as ReactElement<{
-    onSubmit: (event: SyntheticEvent) => void;
-    children: ReactNode[];
-  }>;
+	const result = renderer.getRenderOutput() as ReactElement<{
+		onSubmit: (event: SyntheticEvent) => void;
+		children: ReactNode[];
+	}>;
 
-  const getFormNode = () => result;
+	const getFormNode = () => result;
 
-  const getButtonNode = () => result.props.children[1] as ReactNode | null;
+	const getButtonNode = () => result.props.children[1] as ReactNode | null;
 
-  const getInputNode = () => result.props.children[0] as ReactElement<HTMLProps<HTMLInputElement>>;
+	const getInputNode = () =>
+		result.props.children[0] as ReactElement<HTMLProps<HTMLInputElement>>;
 
-  return {
-    getFormNode,
-    getButtonNode,
-    getInputNode,
-  };
+	return {
+		getFormNode,
+		getButtonNode,
+		getInputNode,
+	};
 };
 
-test('should take initial value from props', () => {
-  mockedUseState.mockReturnValue(['test', () => undefined]);
+test("should take initial value from props", () => {
+	mockedUseState.mockReturnValue(["test", () => undefined]);
 
-  setup({
-    currentAddress: 'test',
-  });
+	setup({
+		currentAddress: "test",
+	});
 
-  expect(useState).toHaveBeenCalledTimes(1);
-  expect(useState).toHaveBeenCalledWith('test');
+	expect(useState).toHaveBeenCalledTimes(1);
+	expect(useState).toHaveBeenCalledWith("test");
 });
 
-test('should render input with value from state', () => {
-  mockedUseState.mockReturnValue(['test', () => undefined]);
+test("should render input with value from state", () => {
+	mockedUseState.mockReturnValue(["test", () => undefined]);
 
-  const page = setup({});
+	const page = setup({});
 
-  expect(page.getInputNode().props.value).toBe('test');
+	expect(page.getInputNode().props.value).toBe("test");
 });
 
-test('should change local value with input', () => {
-  const setValue = jest.fn();
-  mockedUseState.mockReturnValue(['', setValue]);
+test("should change local value with input", () => {
+	const setValue = jest.fn();
+	mockedUseState.mockReturnValue(["", setValue]);
 
-  const page = setup({});
+	const page = setup({});
 
-  const {
-    onChange,
-  } = page.getInputNode().props;
+	const { onChange } = page.getInputNode().props;
 
-  if (!onChange) {
-    throw new Error('onChange should be defined');
-  }
+	if (!onChange) {
+		throw new Error("onChange should be defined");
+	}
 
-  onChange({
-    target: {
-      value: 'test',
-    },
-  } as unknown as ChangeEvent<HTMLInputElement>);
+	onChange({
+		target: {
+			value: "test",
+		},
+	} as unknown as ChangeEvent<HTMLInputElement>);
 
-  expect(setValue).toHaveBeenCalledTimes(1);
-  expect(setValue).toHaveBeenCalledWith('test');
+	expect(setValue).toHaveBeenCalledTimes(1);
+	expect(setValue).toHaveBeenCalledWith("test");
 });
 
-test('should not render button if current address and local value are same', () => {
-  mockedUseState.mockReturnValue(['test', () => undefined]);
+test("should not render button if current address and local value are same", () => {
+	mockedUseState.mockReturnValue(["test", () => undefined]);
 
-  const page = setup({
-    currentAddress: 'test',
-  });
+	const page = setup({
+		currentAddress: "test",
+	});
 
-  expect(page.getButtonNode()).toBeFalsy();
+	expect(page.getButtonNode()).toBeFalsy();
 });
 
-test('should render button if current address and local value are different', () => {
-  mockedUseState.mockReturnValue(['test2', () => undefined]);
+test("should render button if current address and local value are different", () => {
+	mockedUseState.mockReturnValue(["test2", () => undefined]);
 
-  const page = setup({
-    currentAddress: 'test1',
-  });
+	const page = setup({
+		currentAddress: "test1",
+	});
 
-  expect(page.getButtonNode()).toBeTruthy();
+	expect(page.getButtonNode()).toBeTruthy();
 });
 
-test('should set address to first `useLatest` ref', () => {
-  mockedUseState.mockReturnValue(['test', () => undefined]);
+test("should set address to first `useLatest` ref", () => {
+	mockedUseState.mockReturnValue(["test", () => undefined]);
 
-  setup({});
+	setup({});
 
-  expect(useLatest).toHaveBeenCalledTimes(2);
-  expect(useLatest).toHaveBeenNthCalledWith(1, 'test');
+	expect(useLatest).toHaveBeenCalledTimes(2);
+	expect(useLatest).toHaveBeenNthCalledWith(1, "test");
 });
 
-test('should set equal addresses to second `useLatest` ref', () => {
-  mockedUseState.mockReturnValue(['test', () => undefined]);
+test("should set equal addresses to second `useLatest` ref", () => {
+	mockedUseState.mockReturnValue(["test", () => undefined]);
 
-  setup({
-    currentAddress: 'test',
-  });
+	setup({
+		currentAddress: "test",
+	});
 
-  expect(useLatest).toHaveBeenCalledTimes(2);
-  expect(useLatest).toHaveBeenNthCalledWith(2, true);
+	expect(useLatest).toHaveBeenCalledTimes(2);
+	expect(useLatest).toHaveBeenNthCalledWith(2, true);
 });
 
-test('should set not equal addresses to second `useLatest` ref', () => {
-  mockedUseState.mockReturnValue(['test1', () => undefined]);
+test("should set not equal addresses to second `useLatest` ref", () => {
+	mockedUseState.mockReturnValue(["test1", () => undefined]);
 
-  setup({
-    currentAddress: 'test2',
-  });
+	setup({
+		currentAddress: "test2",
+	});
 
-  expect(useLatest).toHaveBeenCalledTimes(2);
-  expect(useLatest).toHaveBeenNthCalledWith(2, false);
+	expect(useLatest).toHaveBeenCalledTimes(2);
+	expect(useLatest).toHaveBeenNthCalledWith(2, false);
 });
 
-test('should call goTo with local value on submit', () => {
-  const preventDefault = jest.fn();
-  const goTo = jest.fn();
-  const refresh = jest.fn();
+test("should call goTo with local value on submit", () => {
+	const preventDefault = jest.fn();
+	const goTo = jest.fn();
+	const refresh = jest.fn();
 
-  mockedUseLatest.mockReset();
-  mockedUseLatest
-    .mockReturnValueOnce({
-      current: 'test',
-    })
-    .mockReturnValueOnce({
-      current: false,
-    });
+	mockedUseLatest.mockReset();
+	mockedUseLatest
+		.mockReturnValueOnce({
+			current: "test",
+		})
+		.mockReturnValueOnce({
+			current: false,
+		});
 
-  const page = setup({
-    goTo,
-    refresh,
-  });
+	const page = setup({
+		goTo,
+		refresh,
+	});
 
-  page.getFormNode().props.onSubmit({
-    preventDefault,
-  } as unknown as SyntheticEvent);
+	page.getFormNode().props.onSubmit({
+		preventDefault,
+	} as unknown as SyntheticEvent);
 
-  expect(preventDefault).toHaveBeenCalledTimes(1);
+	expect(preventDefault).toHaveBeenCalledTimes(1);
 
-  expect(refresh).toHaveBeenCalledTimes(0);
+	expect(refresh).toHaveBeenCalledTimes(0);
 
-  expect(goTo).toHaveBeenCalledTimes(1);
-  expect(goTo).toHaveBeenCalledWith('test');
+	expect(goTo).toHaveBeenCalledTimes(1);
+	expect(goTo).toHaveBeenCalledWith("test");
 });
 
-test('should call refresh on submit', () => {
-  const preventDefault = jest.fn();
-  const goTo = jest.fn();
-  const refresh = jest.fn();
+test("should call refresh on submit", () => {
+	const preventDefault = jest.fn();
+	const goTo = jest.fn();
+	const refresh = jest.fn();
 
-  mockedUseLatest.mockReset();
-  mockedUseLatest
-    .mockReturnValueOnce({
-      current: '',
-    })
-    .mockReturnValueOnce({
-      current: true,
-    });
+	mockedUseLatest.mockReset();
+	mockedUseLatest
+		.mockReturnValueOnce({
+			current: "",
+		})
+		.mockReturnValueOnce({
+			current: true,
+		});
 
-  const page = setup({
-    goTo,
-    refresh,
-  });
+	const page = setup({
+		goTo,
+		refresh,
+	});
 
-  page.getFormNode().props.onSubmit({
-    preventDefault,
-  } as unknown as SyntheticEvent);
+	page.getFormNode().props.onSubmit({
+		preventDefault,
+	} as unknown as SyntheticEvent);
 
-  expect(preventDefault).toHaveBeenCalledTimes(1);
-  expect(refresh).toHaveBeenCalledTimes(1);
-  expect(goTo).toHaveBeenCalledTimes(0);
+	expect(preventDefault).toHaveBeenCalledTimes(1);
+	expect(refresh).toHaveBeenCalledTimes(1);
+	expect(goTo).toHaveBeenCalledTimes(0);
 });
 
-test('should change local value on change currentAddress prop', () => {
-  const setValue = jest.fn();
-  mockedUseState.mockReturnValue(['test1', setValue]);
+test("should change local value on change currentAddress prop", () => {
+	const setValue = jest.fn();
+	mockedUseState.mockReturnValue(["test1", setValue]);
 
-  setup({
-    currentAddress: 'test2',
-  });
+	setup({
+		currentAddress: "test2",
+	});
 
-  expect(mockedUseEffect).toHaveBeenCalledTimes(1);
-  mockedUseEffect.mock.calls[0][0]();
+	expect(mockedUseEffect).toHaveBeenCalledTimes(1);
+	mockedUseEffect.mock.calls[0][0]();
 
-  expect(setValue).toHaveBeenCalledTimes(1);
-  expect(setValue).toHaveBeenCalledWith('test2');
+	expect(setValue).toHaveBeenCalledTimes(1);
+	expect(setValue).toHaveBeenCalledWith("test2");
 });

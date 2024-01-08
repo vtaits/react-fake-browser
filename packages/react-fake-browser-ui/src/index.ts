@@ -1,2 +1,2 @@
-export { FakeBrowser } from './FakeBrowser';
-export { NavBar } from './NavBar';
+export { FakeBrowser } from "./FakeBrowser";
+export { NavBar } from "./NavBar";
