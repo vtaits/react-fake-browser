@@ -6,27 +6,27 @@ import type {
 	ReactNode,
 	SyntheticEvent,
 } from "react";
-
 import { createRenderer } from "react-test-renderer/shallow";
-
 import useLatest from "use-latest";
+import { afterEach, beforeEach, expect, test, vi } from "vitest";
+import { Address } from "./Address";
+import type { AddressProps } from "./Address";
 
-import { Address } from "../Address";
-import type { AddressProps } from "../Address";
+vi.mock("react", async () => {
+	const actual = (await vi.importActual("react")) as Record<string, unknown>;
 
-jest.mock("react", () => ({
-	...jest.requireActual("react"),
+	return {
+		...actual,
+		useState: vi.fn().mockReturnValue(["", () => undefined]),
+		useEffect: vi.fn(),
+	};
+});
 
-	useState: jest.fn().mockReturnValue(["", () => undefined]),
+vi.mock("use-latest");
 
-	useEffect: jest.fn(),
-}));
-
-jest.mock("use-latest");
-
-const mockedUseState = jest.mocked(useState);
-const mockedUseEffect = jest.mocked(useEffect);
-const mockedUseLatest = jest.mocked(useLatest);
+const mockedUseState = vi.mocked(useState);
+const mockedUseEffect = vi.mocked(useEffect);
+const mockedUseLatest = vi.mocked(useLatest);
 
 beforeEach(() => {
 	mockedUseState.mockReturnValue(["", () => undefined]);
@@ -41,7 +41,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-	jest.clearAllMocks();
+	vi.clearAllMocks();
 });
 
 type PageObject = {
@@ -54,8 +54,8 @@ type PageObject = {
 
 const defaultProps: AddressProps = {
 	currentAddress: "",
-	goTo: jest.fn(),
-	refresh: jest.fn(),
+	goTo: vi.fn(),
+	refresh: vi.fn(),
 };
 
 const setup = (props: Partial<AddressProps>): PageObject => {
@@ -102,7 +102,7 @@ test("should render input with value from state", () => {
 });
 
 test("should change local value with input", () => {
-	const setValue = jest.fn();
+	const setValue = vi.fn();
 	mockedUseState.mockReturnValue(["", setValue]);
 
 	const page = setup({});
@@ -175,9 +175,9 @@ test("should set not equal addresses to second `useLatest` ref", () => {
 });
 
 test("should call goTo with local value on submit", () => {
-	const preventDefault = jest.fn();
-	const goTo = jest.fn();
-	const refresh = jest.fn();
+	const preventDefault = vi.fn();
+	const goTo = vi.fn();
+	const refresh = vi.fn();
 
 	mockedUseLatest.mockReset();
 	mockedUseLatest
@@ -206,9 +206,9 @@ test("should call goTo with local value on submit", () => {
 });
 
 test("should call refresh on submit", () => {
-	const preventDefault = jest.fn();
-	const goTo = jest.fn();
-	const refresh = jest.fn();
+	const preventDefault = vi.fn();
+	const goTo = vi.fn();
+	const refresh = vi.fn();
 
 	mockedUseLatest.mockReset();
 	mockedUseLatest
@@ -234,8 +234,17 @@ test("should call refresh on submit", () => {
 });
 
 test("should change local value on change currentAddress prop", () => {
-	const setValue = jest.fn();
+	const setValue = vi.fn();
 	mockedUseState.mockReturnValue(["test1", setValue]);
+
+	mockedUseLatest
+		.mockReset()
+		.mockReturnValueOnce({
+			current: "test1",
+		})
+		.mockReturnValueOnce({
+			current: false,
+		});
 
 	setup({
 		currentAddress: "test2",
@@ -243,6 +252,8 @@ test("should change local value on change currentAddress prop", () => {
 
 	expect(mockedUseEffect).toHaveBeenCalledTimes(1);
 	mockedUseEffect.mock.calls[0][0]();
+
+	expect(mockedUseLatest).toHaveBeenNthCalledWith(2, false);
 
 	expect(setValue).toHaveBeenCalledTimes(1);
 	expect(setValue).toHaveBeenCalledWith("test2");

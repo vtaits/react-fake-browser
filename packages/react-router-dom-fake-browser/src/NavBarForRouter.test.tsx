@@ -4,30 +4,31 @@ import type { ComponentProps, ReactElement } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import type { Location } from "react-router-dom";
 import { createRenderer } from "react-test-renderer/shallow";
-import { NavBarForRouter } from "../NavBarForRouter";
-import type { NavBarForRouterProps } from "../NavBarForRouter";
+import { afterEach, beforeEach, expect, test, vi } from "vitest";
+import { NavBarForRouter } from "./NavBarForRouter";
+import type { NavBarForRouterProps } from "./NavBarForRouter";
 
-const navigate = jest.fn();
+const navigate = vi.fn();
 
-jest.mock("react", () => ({
-	...jest.requireActual("react"),
+vi.mock("react", async () => {
+	const actual = (await vi.importActual("react")) as Record<string, unknown>;
 
-	useContext: jest.fn().mockReturnValue({
-		navigator: {
-			index: 0,
-			length: 0,
-		},
-	}),
-}));
+	return {
+		...actual,
+		useContext: vi.fn().mockReturnValue({
+			navigator: {
+				index: 0,
+				length: 0,
+			},
+		}),
+	};
+});
 
-jest.mock("react-router-dom", () => ({
-	useNavigate: jest.fn(),
-	useLocation: jest.fn(),
-}));
+vi.mock("react-router-dom");
 
-const mockedUseContext = jest.mocked(useContext);
-const mockedUseNavigate = jest.mocked(useNavigate);
-const mockedUseLocation = jest.mocked(useLocation);
+const mockedUseContext = vi.mocked(useContext);
+const mockedUseNavigate = vi.mocked(useNavigate);
+const mockedUseLocation = vi.mocked(useLocation);
 
 beforeEach(() => {
 	mockedUseContext.mockReturnValue({
@@ -46,7 +47,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-	jest.clearAllMocks();
+	vi.clearAllMocks();
 });
 
 type PageObject = {
@@ -78,7 +79,7 @@ const setup = (props: Partial<NavBarForRouterProps>): PageObject => {
 };
 
 test("should provide props to NavBar", () => {
-	const refresh = jest.fn();
+	const refresh = vi.fn();
 
 	mockedUseContext.mockReturnValue({
 		navigator: {

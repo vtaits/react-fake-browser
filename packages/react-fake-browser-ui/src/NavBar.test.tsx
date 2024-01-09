@@ -1,8 +1,9 @@
 import type { ReactElement, ReactNode } from "react";
 import { createRenderer } from "react-test-renderer/shallow";
-import type { AddressProps } from "../Address";
-import { NavBar } from "../NavBar";
-import type { NavBarProps } from "../NavBar";
+import { expect, test, vi } from "vitest";
+import type { AddressProps } from "./Address";
+import { NavBar } from "./NavBar";
+import type { NavBarProps } from "./NavBar";
 
 type ButtonProps = {
 	disabled?: boolean;
@@ -56,8 +57,8 @@ const setup = (props: Partial<NavBarProps>): PageObject => {
 };
 
 test("should provide props to Address", () => {
-	const refresh = jest.fn();
-	const goTo = jest.fn();
+	const refresh = vi.fn();
+	const goTo = vi.fn();
 
 	const page = setup({
 		currentAddress: "/test/",
@@ -73,7 +74,7 @@ test("should provide props to Address", () => {
 });
 
 test("should provide props to refresh button", () => {
-	const refresh = jest.fn();
+	const refresh = vi.fn();
 
 	const page = setup({
 		refresh,
@@ -85,7 +86,7 @@ test("should provide props to refresh button", () => {
 });
 
 test("should render disabled back button", () => {
-	const goBack = jest.fn();
+	const goBack = vi.fn();
 
 	const page = setup({
 		canMoveBack: false,
@@ -99,7 +100,7 @@ test("should render disabled back button", () => {
 });
 
 test("should render enabled back button", () => {
-	const goBack = jest.fn();
+	const goBack = vi.fn();
 
 	const page = setup({
 		canMoveBack: true,
@@ -113,7 +114,7 @@ test("should render enabled back button", () => {
 });
 
 test("should render disabled forward button", () => {
-	const goForward = jest.fn();
+	const goForward = vi.fn();
 
 	const page = setup({
 		canMoveForward: false,
@@ -127,7 +128,7 @@ test("should render disabled forward button", () => {
 });
 
 test("should render enabled forward button", () => {
-	const goForward = jest.fn();
+	const goForward = vi.fn();
 
 	const page = setup({
 		canMoveForward: true,

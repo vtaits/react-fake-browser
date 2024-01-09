@@ -1,23 +1,16 @@
-import type { ComponentProps, ReactElement } from "react";
-
-import { createRenderer } from "react-test-renderer/shallow";
-
-import type { History, Location } from "history";
-
-import { useHistory, useLocation } from "react-router-dom";
-
 import { NavBar } from "@vtaits/react-fake-browser-ui";
+import type { History, Location } from "history";
+import type { ComponentProps, ReactElement } from "react";
+import { useHistory, useLocation } from "react-router-dom";
+import { createRenderer } from "react-test-renderer/shallow";
+import { afterEach, beforeEach, expect, test, vi } from "vitest";
+import { NavBarForRouter } from "./NavBarForRouter";
+import type { NavBarForRouterProps } from "./NavBarForRouter";
 
-import { NavBarForRouter } from "../NavBarForRouter";
-import type { NavBarForRouterProps } from "../NavBarForRouter";
+vi.mock("react-router-dom");
 
-jest.mock("react-router-dom", () => ({
-	useHistory: jest.fn(),
-	useLocation: jest.fn(),
-}));
-
-const mockedUseHistory = jest.mocked(useHistory);
-const mockedUseLocation = jest.mocked(useLocation);
+const mockedUseHistory = vi.mocked(useHistory);
+const mockedUseLocation = vi.mocked(useLocation);
 
 beforeEach(() => {
 	mockedUseHistory.mockReturnValue({
@@ -35,7 +28,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-	jest.clearAllMocks();
+	vi.clearAllMocks();
 });
 
 type PageObject = {
@@ -67,10 +60,10 @@ const setup = (props: Partial<NavBarForRouterProps>): PageObject => {
 };
 
 test("should provide props to NavBar", () => {
-	const refresh = jest.fn();
-	const goBack = jest.fn();
-	const goForward = jest.fn();
-	const push = jest.fn();
+	const refresh = vi.fn();
+	const goBack = vi.fn();
+	const goForward = vi.fn();
+	const push = vi.fn();
 
 	mockedUseHistory.mockReturnValue({
 		index: 0,
@@ -98,9 +91,9 @@ test("should provide props to NavBar", () => {
 });
 
 test("should provide truthy canMoveForward to NavBar", () => {
-	const goBack = jest.fn();
-	const goForward = jest.fn();
-	const push = jest.fn();
+	const goBack = vi.fn();
+	const goForward = vi.fn();
+	const push = vi.fn();
 
 	mockedUseHistory.mockReturnValue({
 		index: 2,
@@ -118,9 +111,9 @@ test("should provide truthy canMoveForward to NavBar", () => {
 });
 
 test("should provide truthy canMoveBack to NavBar", () => {
-	const goBack = jest.fn();
-	const goForward = jest.fn();
-	const push = jest.fn();
+	const goBack = vi.fn();
+	const goForward = vi.fn();
+	const push = vi.fn();
 
 	mockedUseHistory.mockReturnValue({
 		index: 2,
@@ -138,9 +131,9 @@ test("should provide truthy canMoveBack to NavBar", () => {
 });
 
 test("should call goBack", () => {
-	const goBack = jest.fn();
-	const goForward = jest.fn();
-	const push = jest.fn();
+	const goBack = vi.fn();
+	const goForward = vi.fn();
+	const push = vi.fn();
 
 	mockedUseHistory.mockReturnValue({
 		index: 2,
@@ -160,9 +153,9 @@ test("should call goBack", () => {
 });
 
 test("should call goForward", () => {
-	const goBack = jest.fn();
-	const goForward = jest.fn();
-	const push = jest.fn();
+	const goBack = vi.fn();
+	const goForward = vi.fn();
+	const push = vi.fn();
 
 	mockedUseHistory.mockReturnValue({
 		index: 2,
@@ -182,9 +175,9 @@ test("should call goForward", () => {
 });
 
 test("should call goTo", () => {
-	const goBack = jest.fn();
-	const goForward = jest.fn();
-	const push = jest.fn();
+	const goBack = vi.fn();
+	const goForward = vi.fn();
+	const push = vi.fn();
 
 	mockedUseHistory.mockReturnValue({
 		index: 2,

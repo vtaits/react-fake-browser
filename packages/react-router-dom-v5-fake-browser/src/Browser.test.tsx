@@ -1,29 +1,29 @@
 import { useState } from "react";
 import type { ComponentProps, ReactElement, ReactNode } from "react";
-
-import { createRenderer } from "react-test-renderer/shallow";
-
 import { MemoryRouter } from "react-router-dom";
 import type { MemoryRouterProps } from "react-router-dom";
+import { createRenderer } from "react-test-renderer/shallow";
+import { afterEach, beforeEach, expect, test, vi } from "vitest";
+import { Browser } from "./Browser";
+import type { NavBarForRouterProps } from "./NavBarForRouter";
 
-import type { NavBarForRouterProps } from "../NavBarForRouter";
+vi.mock("react", async () => {
+	const actual = (await vi.importActual("react")) as Record<string, unknown>;
 
-import { Browser } from "../Browser";
+	return {
+		...actual,
+		useState: vi.fn().mockReturnValue([1, () => undefined]),
+	};
+});
 
-jest.mock("react", () => ({
-	...jest.requireActual("react"),
-
-	useState: jest.fn().mockReturnValue([1, () => undefined]),
-}));
-
-const mockedUseState = jest.mocked(useState);
+const mockedUseState = vi.mocked(useState);
 
 beforeEach(() => {
 	mockedUseState.mockReturnValue([1, () => undefined]);
 });
 
 afterEach(() => {
-	jest.clearAllMocks();
+	vi.clearAllMocks();
 });
 
 type PageObject = {
@@ -61,7 +61,7 @@ const setup = (props: MemoryRouterProps): PageObject => {
 };
 
 test("should refresh with NavBarForRouter", () => {
-	const setUniq = jest.fn();
+	const setUniq = vi.fn();
 
 	mockedUseState.mockReturnValue([1, setUniq]);
 

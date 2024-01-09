@@ -1,8 +1,9 @@
 import type { ReactElement, ReactNode } from "react";
 import { createRenderer } from "react-test-renderer/shallow";
-import { FakeBrowser } from "../FakeBrowser";
-import type { FakeBrowserProps } from "../FakeBrowser";
-import type { NavBarProps } from "../NavBar";
+import { expect, test, vi } from "vitest";
+import { FakeBrowser } from "./FakeBrowser";
+import type { FakeBrowserProps } from "./FakeBrowser";
+import type { NavBarProps } from "./NavBar";
 
 type PageObject = {
 	getNavBarNode: () => ReactElement<NavBarProps>;
@@ -41,10 +42,10 @@ const setup = (props: Partial<FakeBrowserProps>): PageObject => {
 };
 
 test("should provide props to NavBar", () => {
-	const refresh = jest.fn();
-	const goBack = jest.fn();
-	const goForward = jest.fn();
-	const goTo = jest.fn();
+	const refresh = vi.fn();
+	const goBack = vi.fn();
+	const goForward = vi.fn();
+	const goTo = vi.fn();
 
 	const page = setup({
 		canMoveForward: true,
