@@ -1,8 +1,8 @@
 import type { ReactElement, ReactNode } from "react";
 import { createRenderer } from "react-test-renderer/shallow";
 import { expect, test, vi } from "vitest";
-import { FakeBrowser } from "./FakeBrowser";
 import type { FakeBrowserProps } from "./FakeBrowser";
+import { FakeBrowser } from "./FakeBrowser";
 import type { NavBarProps } from "./NavBar";
 
 type PageObject = {

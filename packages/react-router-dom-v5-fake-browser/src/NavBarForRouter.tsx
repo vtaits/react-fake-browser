@@ -1,6 +1,6 @@
 import { NavBar } from "@vtaits/react-fake-browser-ui";
-import { useCallback } from "react";
 import type { ReactElement } from "react";
+import { useCallback } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 
 export type NavBarForRouterProps = {

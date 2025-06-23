@@ -1,10 +1,9 @@
 import { definition as faAngleRight } from "@fortawesome/free-solid-svg-icons/faAngleRight";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useCallback, useEffect, useState } from "react";
 import type { ReactElement, SyntheticEvent } from "react";
-import useLatest from "use-latest";
-
+import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
+import useLatest from "use-latest";
 
 export const StyledForm = styled.form({
 	flex: 1,

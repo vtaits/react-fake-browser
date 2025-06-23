@@ -1,7 +1,6 @@
-import { useState } from "react";
 import type { ComponentProps, ReactElement, ReactNode } from "react";
-import { MemoryRouter } from "react-router-dom";
-import type { MemoryRouterProps } from "react-router-dom";
+import { useState } from "react";
+import type { MemoryRouter, MemoryRouterProps } from "react-router-dom";
 import { createRenderer } from "react-test-renderer/shallow";
 import { afterEach, beforeEach, expect, test, vi } from "vitest";
 import { Browser } from "./Browser";

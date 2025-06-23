@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import type {
 	ChangeEvent,
 	HTMLProps,
@@ -6,11 +5,12 @@ import type {
 	ReactNode,
 	SyntheticEvent,
 } from "react";
+import { useEffect, useState } from "react";
 import { createRenderer } from "react-test-renderer/shallow";
 import useLatest from "use-latest";
 import { afterEach, beforeEach, expect, test, vi } from "vitest";
-import { Address } from "./Address";
 import type { AddressProps } from "./Address";
+import { Address } from "./Address";
 
 vi.mock("react", async () => {
 	const actual = (await vi.importActual("react")) as Record<string, unknown>;

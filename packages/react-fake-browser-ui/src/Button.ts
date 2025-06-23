@@ -17,11 +17,11 @@ export const Button = styled.button(({ disabled }) => ({
 		? undefined
 		: {
 				backgroundColor: "#ddd",
-		  },
+			},
 
 	":active": disabled
 		? undefined
 		: {
 				backgroundColor: "#d0d0d0",
-		  },
+			},
 }));

@@ -1,12 +1,12 @@
-import { NavBar } from "@vtaits/react-fake-browser-ui";
-import { useContext } from "react";
+import type { NavBar } from "@vtaits/react-fake-browser-ui";
 import type { ComponentProps, ReactElement } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useContext } from "react";
 import type { Location } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { createRenderer } from "react-test-renderer/shallow";
 import { afterEach, beforeEach, expect, test, vi } from "vitest";
-import { NavBarForRouter } from "./NavBarForRouter";
 import type { NavBarForRouterProps } from "./NavBarForRouter";
+import { NavBarForRouter } from "./NavBarForRouter";
 
 const navigate = vi.fn();
 

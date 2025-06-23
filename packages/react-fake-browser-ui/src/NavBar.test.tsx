@@ -2,8 +2,8 @@ import type { ReactElement, ReactNode } from "react";
 import { createRenderer } from "react-test-renderer/shallow";
 import { expect, test, vi } from "vitest";
 import type { AddressProps } from "./Address";
-import { NavBar } from "./NavBar";
 import type { NavBarProps } from "./NavBar";
+import { NavBar } from "./NavBar";
 
 type ButtonProps = {
 	disabled?: boolean;

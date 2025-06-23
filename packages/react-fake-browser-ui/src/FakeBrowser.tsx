@@ -1,4 +1,4 @@
-import type { PropsWithChildren, ReactElement } from "react";
+import type { PropsWithChildren, ReactNode } from "react";
 import { NavBar } from "./NavBar";
 
 export type FakeBrowserProps = Readonly<
@@ -21,8 +21,8 @@ export function FakeBrowser({
 	goBack,
 	goForward,
 	goTo,
-	children,
-}: FakeBrowserProps): ReactElement {
+	children = undefined,
+}: FakeBrowserProps): ReactNode {
 	return (
 		<>
 			<NavBar
@@ -39,7 +39,3 @@ export function FakeBrowser({
 		</>
 	);
 }
-
-FakeBrowser.defaultProps = {
-	children: undefined,
-};

@@ -1,6 +1,6 @@
 import { NavBar } from "@vtaits/react-fake-browser-ui";
-import { useCallback, useContext } from "react";
 import type { ReactElement } from "react";
+import { useCallback, useContext } from "react";
 import {
 	UNSAFE_NavigationContext,
 	useLocation,

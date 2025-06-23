@@ -1,7 +1,7 @@
-import { Fragment, useCallback, useState } from "react";
 import type { ReactElement } from "react";
-import { MemoryRouter } from "react-router-dom";
+import { Fragment, useCallback, useState } from "react";
 import type { MemoryRouterProps } from "react-router-dom";
+import { MemoryRouter } from "react-router-dom";
 import { NavBarForRouter } from "./NavBarForRouter";
 
 const increase = (prevValue: number) => prevValue + 1;
