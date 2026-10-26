@@ -1,8 +1,14 @@
-import type { ReactElement } from "react";
 import { action } from "storybook/actions";
-import { FakeBrowser, type FakeBrowserProps } from "../FakeBrowser";
+import { FakeBrowser } from "../FakeBrowser.js";
 
-export function Example(props: FakeBrowserProps): ReactElement {
+/**
+ * @import {FakeBrowserProps} from "../FakeBrowser.js"
+ */
+
+/**
+ * @param {FakeBrowserProps} props
+ */
+export function Example(props) {
 	return (
 		<FakeBrowser
 			{...props}

@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "noEmit": false,
+        "declaration": true,
+        "emitDeclarationOnly": true,
+    },
+    "extends": "./tsconfig.json",
+    "exclude": [
+        "node_modules",
+        "src/__stories__",
+        "src/**/*.test.js",
+        "src/**/*.test.jsx"
+    ]
+}

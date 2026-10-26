@@ -1,8 +1,15 @@
-import { type ReactElement, useEffect, useState } from "react";
-import { Link, type MemoryRouterProps, Route, Routes } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, Route, Routes } from "react-router-dom";
 import { Browser } from "../Browser";
 
-export function Example(props: MemoryRouterProps): ReactElement {
+/**
+ * @import { MemoryRouterProps } from "react-router-dom"
+ */
+
+/**
+ * @param {MemoryRouterProps} props
+ */
+export function Example(props) {
 	const { initialEntries, initialIndex } = props;
 
 	const [key, setKey] = useState(0);

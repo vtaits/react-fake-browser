@@ -1,6 +1,11 @@
-import type { Preview } from '@storybook/react';
+import '@vtaits/react-fake-browser-ui/styles.css';
 
-const preview: Preview = {
+/**
+ * @import { Preview } from '@storybook/react-vite'
+ */
+
+/** @type {Preview} */
+const preview = {
   parameters: {
     actions: { argTypesRegex: '^on[A-Z].*' },
     controls: {

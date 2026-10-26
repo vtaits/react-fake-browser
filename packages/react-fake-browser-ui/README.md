@@ -9,7 +9,13 @@ UI elements for creating fake browsers
 ### Installation
 
 ```sh
-yarn add @vtaits/react-fake-browser-ui styled-components
+yarn add @vtaits/react-fake-browser-ui
+```
+
+### Styles
+
+```js
+import '@vtaits/react-fake-browser-ui/styles.css';
 ```
 
 ### Examples

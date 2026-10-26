@@ -1,0 +1,73 @@
+.fake-browser__nav-bar {
+	display: flex;
+	padding: 5px;
+	background-color: #f6f6f6;
+}
+
+.fake-browser__nav-bar-button {
+	margin-left: 5px;
+	margin-right: 5px;
+	padding: 0;
+	border: none;
+	background-color: transparent;
+	cursor: pointer;
+	width: 24px;
+	height: 24px;
+	border-radius: 12px;
+	outline: none;
+	color: #333;
+}
+
+.fake-browser__nav-bar-button:not(:disabled):hover {
+	background-color: #ddd;
+}
+
+.fake-browser__nav-bar-button:not(:disabled):active {
+	background-color: #d0d0d0;
+}
+
+.fake-browser__nav-bar-button:disabled {
+	cursor: default;
+	color: #999;
+}
+
+.fake-browser__address-form {
+	flex: 1;
+	margin-left: 5px;
+	margin-right: 5px;
+	position: relative;
+}
+
+.fake-browser__navigate-button {
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 0;
+	border: none;
+	background-color: transparent;
+	cursor: pointer;
+	width: 24px;
+	height: 24px;
+	border-radius: 12px;
+	outline: none;
+	color: #333;
+}
+
+.fake-browser__navigate-button:hover {
+	background-color: #ddd;
+}
+
+.fake-browser__navigate-button:active {
+	background-color: #d0d0d0;
+}
+
+.fake-browser__address-input {
+	box-sizing: border-box;
+	outline: none;
+	width: 100%;
+	height: 24px;
+	border-radius: 12px;
+	border: none;
+	padding-left: 12px;
+	padding-right: 40px;
+}

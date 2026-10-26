@@ -1,20 +1,26 @@
 {
+  "type": "module",
   "name": "@vtaits/react-router-dom-fake-browser",
   "version": "1.0.0",
   "description": "Embeddable fake browser for react applications based on react-router-dom",
   "files": [
-    "dist"
+    "dist",
+    "src",
+    "!src/__stories__",
+    "!src/**/*.test.js",
+    "!src/**/*.test.jsx"
   ],
-  "main": "./dist/index.js",
-  "module": "./dist/esm/index.js",
+  "main": "./src/index.js",
+  "module": "./src/index.js",
+  "typings": "dist/ts/index.d.ts",
   "exports": {
+    "./package.json": "./package.json",
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/esm/index.js",
-      "require": "./dist/index.js"
+      "types": "./dist/ts/index.d.ts",
+      "import": "./src/index.js",
+      "default": "./src/index.js"
     }
   },
-  "typings": "dist/index.d.ts",
   "keywords": [
     "fake",
     "browser",
@@ -25,33 +31,31 @@
   "author": "Vadim Taits <taizvadim@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "tsup src/index.ts --sourcemap --format esm,cjs --dts --legacy-output",
+    "build": "tsc -p tsconfig.build.json",
+    "test:ts": "tsc",
     "lint": "biome check src",
     "lint:fix": "biome check src --write --unsafe",
-    "test:ts": "tsc --noEmit",
     "test:unit": "vitest run --coverage.enabled --coverage.all --coverage.include=src --coverage.exclude=src/__stories__",
     "test:unit:watch": "vitest",
     "test": "yarn lint && yarn test:ts && yarn test:unit",
     "prepare": "yarn build"
   },
   "peerDependencies": {
+    "@vtaits/react-fake-browser-ui": "^1.0.0",
     "react": "^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
-    "react-router-dom": "^6.0.0",
-    "styled-components": "^5.0.0 || ^6.0.0"
+    "react-router-dom": "^6.0.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.0.4",
-    "@types/react": "^19.1.8",
-    "@types/react-test-renderer": "^19.1.0",
-    "@vitest/coverage-v8": "^3.2.4",
-    "react": "^19.1.0",
-    "react-router-dom": "^7.6.2",
-    "react-test-renderer": "^19.1.0",
-    "styled-components": "^6.1.19",
-    "tsup": "^8.5.0",
-    "vitest": "^3.2.4"
-  },
-  "dependencies": {
-    "@vtaits/react-fake-browser-ui": "^1.0.0"
+    "@biomejs/biome": "^2.6.3",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@types/react": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "@vitest/coverage-v8": "^5.0.5",
+    "@vtaits/react-fake-browser-ui": "^1.0.0",
+    "happy-dom": "^21.0.4",
+    "react": "^19.3.1",
+    "react-router-dom": "^7.18.4",
+    "vitest": "^5.0.5"
   }
 }

@@ -1,22 +1,25 @@
 {
   "compilerOptions": {
-    "target": "ES2021",
+    "target": "ES2023",
+    "useDefineForClassFields": true,
     "outDir": "dist/ts",
-    "jsx": "react-jsx",
     "lib": [
-      "ESNext",
-      "DOM"
+      "ESNext", "DOM"
     ],
-    "allowJs": false,
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "module": "ESNext",
-    "moduleResolution": "Node",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "resolveJsonModule": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "rootDir": "./src"
   },
   "include": [
     "src/**/*"

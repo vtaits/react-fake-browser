@@ -6,6 +6,12 @@
 
 Embeddable fake browser based on `MemoryRouter` from `react-router-dom` version `5.x`
 
+## Installation
+
+```sh
+yarn add @vtaits/react-router-dom-v5-fake-browser @vtaits/react-fake-browser-ui
+```
+
 ## Examples
 
 - [Simple](https://codesandbox.io/s/cvrwks)
@@ -13,6 +19,7 @@ Embeddable fake browser based on `MemoryRouter` from `react-router-dom` version 
 ## Usage
 
 ```javascript
+import '@vtaits/react-fake-browser-ui/styles.css';
 import {
   Browser,
 } from '@vtaits/react-router-dom-v5-fake-browser';
