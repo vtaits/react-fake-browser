@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "@vtaits/react-router-dom-v5-fake-browser",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Embeddable fake browser for react applications based on react-router-dom version 5",
   "files": [
     "dist",
@@ -41,7 +41,7 @@
     "prepare": "yarn build"
   },
   "peerDependencies": {
-    "@vtaits/react-fake-browser-ui": "^1.0.0",
+    "@vtaits/react-fake-browser-ui": "^2.0.0",
     "react": "^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
     "react-router-dom": "^5.0.0"
   },
@@ -53,7 +53,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@vitejs/plugin-react": "^6.1.2",
     "@vitest/coverage-v8": "^5.0.5",
-    "@vtaits/react-fake-browser-ui": "^1.0.0",
+    "@vtaits/react-fake-browser-ui": "^2.0.0",
     "happy-dom": "^21.0.4",
     "react": "^19.3.1",
     "react-router-dom": "^5.3.4",
