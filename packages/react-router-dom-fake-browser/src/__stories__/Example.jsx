@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, Route, Routes } from "react-router-dom";
-import { Browser } from "../Browser";
+import { Browser } from "../Browser.js";
 
 /**
  * @import { MemoryRouterProps } from "react-router-dom"
